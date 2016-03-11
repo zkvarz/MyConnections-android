@@ -20,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
 
     private GoogleMap googleMap;
     private PolylineOptions polylineOptions;
-    private ArrayList<LatLng> arrayPoints = new ArrayList<LatLng>();
+    private ArrayList<LatLng> arrayPoints = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,8 +126,6 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
             arrayPoints.add(latLng);
             polylineOptions.addAll(arrayPoints);
             googleMap.addPolyline(polylineOptions);*/
-
-
         }
 
         // Instantiating the class MarkerOptions to plot marker on the map
@@ -139,9 +138,9 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
         markerOptions.title("Position");
 
         // Setting the content of the infowindow of the marker
-        markerOptions.snippet("Latitude:"+latLng.latitude+","+"Longitude:"+latLng.longitude);
+        markerOptions.snippet("Latitude:" + latLng.latitude + "," + "Longitude:" + latLng.longitude);
 
-        // Instantiating the class PolylineOptions to plot polyline in the map
+       // Instantiating the class PolylineOptions to plot polyline in the map
         PolylineOptions polylineOptions = new PolylineOptions();
 
         // Setting the color of the polyline
@@ -157,7 +156,9 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
         polylineOptions.addAll(arrayPoints);
 
         // Adding the polyline to the map
-        googleMap.addPolyline(polylineOptions);
+//        googleMap.addPolyline(polylineOptions);
+
+        createDashedLine(googleMap, Color.BLUE, polylineOptions);
 
         // Adding the marker to the map
         googleMap.addMarker(markerOptions);
@@ -170,6 +171,41 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
         googleMap.clear();
         // Empty the array list
         arrayPoints.clear();
+    }
+
+    public  void createDashedLine(GoogleMap map, int color,  PolylineOptions polylineOptions){
+//        double difLat = latLngDest.latitude - latLngOrig.latitude;
+//        double difLng = latLngDest.longitude - latLngOrig.longitude;
+
+        double difLat = arrayPoints.get(arrayPoints.size() - 1).latitude - arrayPoints.get(0).latitude;
+        double difLng = arrayPoints.get(arrayPoints.size() - 1).longitude - arrayPoints.get(0).longitude;
+
+        double zoom = map.getCameraPosition().zoom;
+
+        double divLat = difLat / (zoom * 2);
+        double divLng = difLng / (zoom * 2);
+
+        LatLng tmpLatOri = arrayPoints.get(0);
+
+        for(int i = 0; i < (zoom * 2); i++){
+            LatLng loopLatLng = tmpLatOri;
+
+            if(i > 0){
+                loopLatLng = new LatLng(tmpLatOri.latitude + (divLat * 0.25f), tmpLatOri.longitude + (divLng * 0.25f));
+            }
+
+            Polyline polyline = map.addPolyline(new PolylineOptions()
+                    .add(loopLatLng)
+                    .add(new LatLng(tmpLatOri.latitude + divLat, tmpLatOri.longitude + divLng))
+                    .color(color)
+                    .width(5f));
+
+
+
+//            Polyline polyline = map.addPolyline(polylineOptions);
+
+            tmpLatOri = new LatLng(tmpLatOri.latitude + divLat, tmpLatOri.longitude + divLng);
+        }
     }
 
 
