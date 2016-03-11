@@ -8,8 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.myconnections_android.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapAnimationActivity extends AppCompatActivity {
+public class MapAnimationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,21 @@ public class MapAnimationActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng firstLocation  = new LatLng(49.239121, 25.070801);
+        LatLng secondLocation  = new LatLng(49.975955, 36.543274);
+        googleMap.addMarker(new MarkerOptions()
+                .position(firstLocation)
+                .title("Marker"));
+
+    }
 }

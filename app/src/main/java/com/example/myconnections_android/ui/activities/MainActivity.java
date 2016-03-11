@@ -1,13 +1,14 @@
 package com.example.myconnections_android.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.myconnections_android.R;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button googleMapButton = (Button) findViewById(R.id.googleMapButton);
         googleMapButton.setOnClickListener(this);
+        Button googleMapAnimation = (Button) findViewById(R.id.googleMapAnimation);
+        googleMapAnimation.setOnClickListener(this);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -59,10 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.googleMapButton:
-
-            break;
+                Intent mapAnimationActivity = new Intent(this, MapAnimationActivity.class);
+                startActivity(mapAnimationActivity);
+                break;
+            case R.id.googleMapAnimation:
+                Intent intent = new Intent(this, GoogleAnimationActivity.class);
+                startActivity(intent);
+                break;
 
         }
     }

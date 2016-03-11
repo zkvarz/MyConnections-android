@@ -24,4 +24,11 @@
         android:layout_height="@dimen/dimen_70"
         android:layout_below="@id/textView"
         android:text="@string/google_animation" />
+
+    <Button
+        android:id="@+id/googleMapAnimation"
+        android:layout_width="@dimen/dimen_180"
+        android:layout_height="@dimen/dimen_70"
+        android:layout_below="@id/googleMapButton"
+        android:text="@string/google_animation" />
 </RelativeLayout>

@@ -33,6 +33,9 @@
             android:name=".ui.activities.MapAnimationActivity"
             android:label="@string/title_activity_map_animation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.activities.GoogleAnimationActivity"
+            android:label="@string/title_activity_map_animation"></activity>
     </application>
 
 </manifest>
