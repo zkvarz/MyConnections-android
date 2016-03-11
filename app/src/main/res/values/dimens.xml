@@ -3,4 +3,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="profile_image_border_width">@dimen/dimen_5</dimen>
+
+    <dimen name="button_height">@dimen/dimen_48</dimen>
+    <dimen name="button_corners">@dimen/dimen_4</dimen>
+
+    <dimen name="layout_padding">20dp</dimen>
+    <dimen name="index_bar_view_text_size">12sp</dimen>
+    <dimen name="index_bar_view_width">20dp</dimen>
+    <dimen name="index_bar_view_margin">8dp</dimen>
 </resources>

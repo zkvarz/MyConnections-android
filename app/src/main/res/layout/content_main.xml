@@ -13,7 +13,15 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!" />
+
+    <Button
+        android:id="@+id/googleMapButton"
+        android:layout_width="@dimen/dimen_180"
+        android:layout_height="@dimen/dimen_70"
+        android:layout_below="@id/textView"
+        android:text="@string/google_animation" />
 </RelativeLayout>

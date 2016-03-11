@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_height" >@dimen/dimen_48</dimen>
+    <dimen name="button_corners">@dimen/dimen_4</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="profile_image_border_width">@dimen/dimen_5</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="layout_padding">80dp</dimen>
+
+    <dimen name="index_bar_view_text_size">16sp</dimen>
+    <dimen name="index_bar_view_width">30dp</dimen>
+    <dimen name="index_bar_view_margin">15dp</dimen>
+
+</resources>
