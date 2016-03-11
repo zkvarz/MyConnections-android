@@ -15,9 +15,11 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
+import com.example.myconnections_android.R;
 import com.example.myconnections_android.ui.map.animations.LatLngInterpolator;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -30,6 +32,7 @@ public class GoogleAnimationActivity extends FragmentActivity {
     private SyncedMapFragment mMapFragment;
     private GoogleMap mMap;
     private Marker mMarker;
+    private Object marketImage;
 
 
     @Override
@@ -56,14 +59,47 @@ public class GoogleAnimationActivity extends FragmentActivity {
 
         @Override
         public void onMapClick(LatLng point) {
+//            BitmapDescriptor subwayBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.plane_huge);
+
             if (mMarker != null) {
                 mMapFragment.animateMarkerToGB(mMarker, point, mLatLngInterpolator, 1500);
             } else {
                 mLatLngInterpolator = new LatLngInterpolator.Linear();
-                mMarker = mMap.addMarker(new MarkerOptions().position(point));
+                // Uses a custom icon on marker.
+//                mMarker = mMap.addMarker(new MarkerOptions().position(point));
+                mMarker = mMap.addMarker(new MarkerOptions()
+                        .position(point)
+//                        .title("Something")
+//                        .snippet("Population: 4,627,300")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.plane_huge)));
+                getMarketImage();
             }
         }
     };
+
+    public Object getMarketImage() {
+/*        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bmp = Bitmap.createBitmap(80, 80, conf);
+        Canvas canvas1 = new Canvas(bmp);
+
+        // paint defines the text color,
+        // stroke width, size
+        Paint color = new Paint();
+        color.setTextSize(35);
+        color.setColor(Color.BLACK);
+
+        //modify canvas
+        canvas1.drawBitmap(BitmapFactory.decodeResource(getResources(),
+                R.drawable.plane), 0, 0, color);
+        canvas1.drawText("User Name!", 30, 40, color);
+
+        //add marker to Map
+        mMap.addMarker(new MarkerOptions().position(USER_POSITION)
+                .icon(BitmapDescriptorFactory.fromBitmap(bmp))
+                        // Specifies the anchor to be at a particular point in the marker image.
+                .anchor(0.5f, 1));*/
+        return marketImage;
+    }
 
 
     public static class SyncedMapFragment extends SupportMapFragment {

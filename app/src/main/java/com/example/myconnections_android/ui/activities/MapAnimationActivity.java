@@ -1,20 +1,39 @@
 package com.example.myconnections_android.ui.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.example.myconnections_android.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapAnimationActivity extends AppCompatActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+
+public class MapAnimationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+
+    private static final LatLng LOWER_MANHATTAN = new LatLng(40.722543,
+            -73.998585);
+    private static final LatLng TIMES_SQUARE = new LatLng(40.7577, -73.9857);
+    private static final LatLng BROOKLYN_BRIDGE = new LatLng(40.7057, -73.9964);
+
+    private GoogleMap googleMap;
+    private PolylineOptions polylineOptions;
+    private ArrayList<LatLng> arrayPoints = new ArrayList<LatLng>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +60,117 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng firstLocation  = new LatLng(49.239121, 25.070801);
-        LatLng secondLocation  = new LatLng(49.975955, 36.543274);
-        googleMap.addMarker(new MarkerOptions()
+        LatLng firstLocation = new LatLng(49.239121, 25.070801);
+        LatLng secondLocation = new LatLng(49.975955, 36.543274);
+        this.googleMap = googleMap;
+/*        googleMap.addMarker(new MarkerOptions()
                 .position(firstLocation)
-                .title("Marker"));
+                .title("Marker"));*/
+
+
+//        setUpMapIfNeeded(googleMap);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.d("MapAnimation: ", "everything BAD");
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
+
+        googleMap.setOnMapClickListener(this);
+        googleMap.setOnMapLongClickListener(this);
+        Log.d("MapAnimation: ", " onMapReady end");
+    }
+
+    private void setUpMapIfNeeded(GoogleMap googleMap) {
+        // check if we have got the googleMap already
+        if (googleMap == null) {
+            googleMap = ((SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
+            if (googleMap != null) {
+                addLines(googleMap);
+            }
+        }
+    }
+
+    private void addLines(GoogleMap googleMap) {
+
+        googleMap.addPolyline((new PolylineOptions())
+                .add(TIMES_SQUARE, BROOKLYN_BRIDGE, LOWER_MANHATTAN,
+                        TIMES_SQUARE).width(5).color(Color.BLUE)
+                .geodesic(true));
+        // move camera to zoom on map
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LOWER_MANHATTAN,
+                13));
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+/*        //add marker
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(latLng);*/
+
+        if (googleMap == null) {
+   /*         googleMap.addMarker(marker);
+            // settin polyline in the map
+            polylineOptions = new PolylineOptions();
+            polylineOptions.color(Color.RED);
+            polylineOptions.width(5);
+            arrayPoints.add(latLng);
+            polylineOptions.addAll(arrayPoints);
+            googleMap.addPolyline(polylineOptions);*/
+
+
+        }
+
+        // Instantiating the class MarkerOptions to plot marker on the map
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        // Setting latitude and longitude of the marker position
+        markerOptions.position(latLng);
+
+        // Setting titile of the infowindow of the marker
+        markerOptions.title("Position");
+
+        // Setting the content of the infowindow of the marker
+        markerOptions.snippet("Latitude:"+latLng.latitude+","+"Longitude:"+latLng.longitude);
+
+        // Instantiating the class PolylineOptions to plot polyline in the map
+        PolylineOptions polylineOptions = new PolylineOptions();
+
+        // Setting the color of the polyline
+        polylineOptions.color(Color.BLUE);
+
+        // Setting the width of the polyline
+        polylineOptions.width(3);
+
+        // Adding the taped point to the ArrayList
+        arrayPoints.add(latLng);
+
+        // Setting points of polyline
+        polylineOptions.addAll(arrayPoints);
+
+        // Adding the polyline to the map
+        googleMap.addPolyline(polylineOptions);
+
+        // Adding the marker to the map
+        googleMap.addMarker(markerOptions);
 
     }
+
+    @Override
+    public void onMapLongClick(LatLng point) {
+        // Clearing the markers and polylines in the google map
+        googleMap.clear();
+        // Empty the array list
+        arrayPoints.clear();
+    }
+
+
 }
