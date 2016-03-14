@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import com.example.myconnections_android.R;
@@ -87,36 +88,46 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.getUiSettings().setScrollGesturesEnabled(false);
-        mMap.getUiSettings().setAllGesturesEnabled(false);
-//        mMap.setOnMapClickListener(mMapClickListener);
+//        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+//            @Override
+//            public void onMapLoaded() {
+        //            }
+//        });
+                Logger.info(GoogleAnimationActivity.this.getClass(), "Map loaded successfully :)");
+                mMap.getUiSettings().setScrollGesturesEnabled(false);
+                mMap.getUiSettings().setAllGesturesEnabled(false);
 
-        ArrayList<Marker> markers = new ArrayList<>();
-        Marker parisMarket = mMap.addMarker(new MarkerOptions()
-                .position(PARIS_LAT_LONG)
-                .anchor(0.5f, 0.5f)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_circle_small)));
+                ArrayList<Marker> markers = new ArrayList<>();
+                Marker parisMarket = mMap.addMarker(new MarkerOptions()
+                        .position(PARIS_LAT_LONG)
+                        .anchor(0.5f, 0.5f)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_circle_small)));
 
-        Marker warsawMarket = mMap.addMarker(new MarkerOptions()
-                .position(WARSAW_LAT_LONG)
-                .anchor(0.5f, 0.5f)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_circle_small)));
-        markers.add(parisMarket);
-        markers.add(warsawMarket);
+                Marker warsawMarket = mMap.addMarker(new MarkerOptions()
+                        .position(WARSAW_LAT_LONG)
+                        .anchor(0.5f, 0.5f)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_circle_small)));
+                markers.add(parisMarket);
+                markers.add(warsawMarket);
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker m : markers) {
-            builder.include(m.getPosition());
-        }
-        LatLngBounds bounds = builder.build();
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Marker m : markers) {
+                    builder.include(m.getPosition());
+                }
+                LatLngBounds bounds = builder.build();
 
-        int padding = 60; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.moveCamera(cu);
+                DisplayMetrics metrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        createDashedLine();
-        Logger.debug(getClass(), "pre beginPlaneAnimation");
-        beginPlaneAnimation();
+                int padding = 60; // offset from edges of the map in pixels
+//                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, metrics.widthPixels, metrics.heightPixels, padding);
+                mMap.moveCamera(cu);
+
+                createDashedLine();
+                Logger.debug(getClass(), "pre beginPlaneAnimation");
+                beginPlaneAnimation();
+
     }
 
     private void createDashedLine() {
