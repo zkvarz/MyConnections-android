@@ -113,20 +113,6 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onMapClick(LatLng latLng) {
-/*        //add marker
-        MarkerOptions marker = new MarkerOptions();
-        marker.position(latLng);*/
-
-        if (googleMap == null) {
-   /*         googleMap.addMarker(marker);
-            // settin polyline in the map
-            polylineOptions = new PolylineOptions();
-            polylineOptions.color(Color.RED);
-            polylineOptions.width(5);
-            arrayPoints.add(latLng);
-            polylineOptions.addAll(arrayPoints);
-            googleMap.addPolyline(polylineOptions);*/
-        }
 
         // Instantiating the class MarkerOptions to plot marker on the map
         MarkerOptions markerOptions = new MarkerOptions();
@@ -199,10 +185,6 @@ public class MapAnimationActivity extends AppCompatActivity implements OnMapRead
                     .add(new LatLng(tmpLatOri.latitude + divLat, tmpLatOri.longitude + divLng))
                     .color(color)
                     .width(5f));
-
-
-
-//            Polyline polyline = map.addPolyline(polylineOptions);
 
             tmpLatOri = new LatLng(tmpLatOri.latitude + divLat, tmpLatOri.longitude + divLng);
         }
