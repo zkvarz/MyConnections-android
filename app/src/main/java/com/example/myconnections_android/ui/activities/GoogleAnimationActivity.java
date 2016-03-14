@@ -9,13 +9,14 @@ import com.example.myconnections_android.helpers.Logger;
 import com.example.myconnections_android.ui.fragments.SyncedMapFragment;
 import com.example.myconnections_android.ui.map.animations.LatLngInterpolator;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class GoogleAnimationActivity extends FragmentActivity implements SyncedMapFragment.OnAnimated {
+public class GoogleAnimationActivity extends FragmentActivity implements SyncedMapFragment.OnAnimated, OnMapReadyCallback {
     private SyncedMapFragment mMapFragment;
     private GoogleMap mMap;
     private Marker mMarker;
@@ -36,6 +37,7 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
+//        mMap = mMapFragment.getMapAsync(this);
         mMap = mMapFragment.getMap();
         mMap.setOnMapClickListener(mMapClickListener);
     }
@@ -87,4 +89,8 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+    }
 }
