@@ -2,6 +2,7 @@ package com.example.myconnections_android.ui.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 
@@ -33,6 +34,8 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
     private static final LatLng PARIS_LAT_LONG = new LatLng(48.85661, 2.35222);
     private static final LatLng WARSAW_LAT_LONG = new LatLng(52.22968, 21.01223);
 
+    private LatLngInterpolator mLatLngInterpolator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
         getSupportFragmentManager().beginTransaction()
                 .add(android.R.id.content, mMapFragment)
                 .commit();
+
     }
 
     @Override
@@ -52,25 +56,13 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
 
 
     private GoogleMap.OnMapClickListener mMapClickListener = new GoogleMap.OnMapClickListener() {
-        private LatLngInterpolator mLatLngInterpolator;
 
 
         @Override
         public void onMapClick(LatLng point) {
             Logger.debug(getClass(), "onMapClick " + isAnimated);
 
-            if (!isAnimated) {
-                Logger.debug(getClass(), "CAN BE CLICKED " + isAnimated);
-                if (mMarker != null) {
-                    mMapFragment.animateMarkerToGB(mMarker, point, mLatLngInterpolator, 1500);
-                } else {
-                    mLatLngInterpolator = new LatLngInterpolator.Linear();
-                    // Uses a custom icon on marker.
-                    mMarker = mMap.addMarker(new MarkerOptions()
-                            .position(point)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.plane_huge)));
-                }
-            }
+
         }
     };
 
@@ -95,7 +87,9 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMapClickListener(mMapClickListener);
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
+        mMap.getUiSettings().setAllGesturesEnabled(false);
+//        mMap.setOnMapClickListener(mMapClickListener);
 
         ArrayList<Marker> markers = new ArrayList<>();
         Marker parisMarket = mMap.addMarker(new MarkerOptions()
@@ -121,7 +115,8 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
         mMap.moveCamera(cu);
 
         createDashedLine();
-
+        Logger.debug(getClass(), "pre beginPlaneAnimation");
+        beginPlaneAnimation();
     }
 
     private void createDashedLine() {
@@ -130,7 +125,6 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
         arrayPoints.add(WARSAW_LAT_LONG);
 
         LatLng lastElement = arrayPoints.get(arrayPoints.size() - 1);
-
 
         double difLat = arrayPoints.get(arrayPoints.size() - 1).latitude - arrayPoints.get(0).latitude;
         double difLng = arrayPoints.get(arrayPoints.size() - 1).longitude - arrayPoints.get(0).longitude;
@@ -166,6 +160,36 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
 
             tmpLatOri = new LatLng(tmpLatOri.latitude + divLat, tmpLatOri.longitude + divLng);
         }
+    }
+
+    private void beginPlaneAnimation() {
+        Logger.debug(getClass(), "beginPlaneAnimation");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Logger.debug(GoogleAnimationActivity.class.getClass(), "beginPlaneAnimation run");
+                if (!isAnimated) {
+                    Logger.debug(getClass(), "CAN BE CLICKED " + isAnimated);
+                    if (mMarker != null) {
+                        mMapFragment.animateMarkerToGB(mMarker, WARSAW_LAT_LONG, mLatLngInterpolator, 1500);
+                    } else {
+                        mLatLngInterpolator = new LatLngInterpolator.Linear();
+                        // Uses a custom icon on marker.
+                        Logger.debug(GoogleAnimationActivity.class.getClass(), "beginPlaneAnimation run marker");
+                        mMarker = mMap.addMarker(new MarkerOptions()
+                                .position(PARIS_LAT_LONG)
+                                .anchor(0.5f, 0.5f)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.plane_huge)));
+                        Logger.debug(getClass(), "beginPlaneAnimation run after");
+                        if (mMarker != null) {
+                            mMapFragment.animateMarkerToGB(mMarker, WARSAW_LAT_LONG, mLatLngInterpolator, 5500);
+                        }
+                    }
+                }
+            }
+        }, 1000);
+
 
     }
 }
