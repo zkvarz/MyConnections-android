@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         googleMapButton.setOnClickListener(this);
         Button googleMapAnimation = (Button) findViewById(R.id.googleMapAnimation);
         googleMapAnimation.setOnClickListener(this);
+        Button calendarButton = (Button) findViewById(R.id.calendarButton);
+        calendarButton.setOnClickListener(this);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -70,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.googleMapAnimation:
                 Intent intent = new Intent(this, GoogleAnimationActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.calendarButton:
+                startActivity(new Intent(this, CalendarActivity.class));
                 break;
 
         }

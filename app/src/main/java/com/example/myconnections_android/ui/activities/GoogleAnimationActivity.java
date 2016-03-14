@@ -120,7 +120,7 @@ public class GoogleAnimationActivity extends FragmentActivity implements SyncedM
                 getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
                 int padding = 60; // offset from edges of the map in pixels
-//                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, metrics.widthPixels, metrics.heightPixels, padding);
                 mMap.moveCamera(cu);
 
