@@ -38,4 +38,11 @@
         android:layout_height="@dimen/dimen_70"
         android:layout_below="@id/googleMapAnimation"
         android:text="@string/calendarButton" />
+
+    <Button
+        android:id="@+id/facebookLogin"
+        android:layout_width="@dimen/dimen_180"
+        android:layout_height="@dimen/dimen_70"
+        android:layout_below="@id/googleMapAnimation"
+        android:text="@string/facebookLogin" />
 </RelativeLayout>
