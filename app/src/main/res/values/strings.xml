@@ -7,6 +7,15 @@
 
     <string name="facebook_app_id">567980196692866</string>
     <string name="facebookLogin">Facebook Login</string>
+    <string name="googleLogin">Google Login</string>
+    <string name="twitterLogin">Twitter Login</string>
+
 
     <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="registerText">Register/Login!</string>
+    <string name="enterPhone">Please, enter your phone number:</string>
+    <string name="signUp">Sign up!</string>
+    <string name="phoneText">Phone number</string>
+    <string name="passwordText">Password</string>
+    <string name="orSocialText">Or use existing accounts!</string>
 </resources>

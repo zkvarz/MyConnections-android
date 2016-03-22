@@ -8,41 +8,50 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_gravity="center_horizontal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.activities.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context=".ui.activities.SignInActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/googleMapButton"
         android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_70"
-        android:layout_below="@id/textView"
-        android:text="@string/google_animation" />
+        android:text="@string/google_animation"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/googleMapAnimation"
         android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_70"
-        android:layout_below="@id/googleMapButton"
-        android:text="@string/google_animation" />
+        android:text="@string/google_animation"
+        android:layout_below="@+id/googleMapButton"
+        android:layout_alignLeft="@+id/googleMapButton"
+        android:layout_alignStart="@+id/googleMapButton" />
 
     <Button
         android:id="@+id/calendarButton"
         android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_70"
-        android:layout_below="@id/googleMapAnimation"
-        android:text="@string/calendarButton" />
+        android:text="@string/calendarButton"
+        android:layout_below="@+id/googleMapAnimation"
+        android:layout_alignLeft="@+id/googleMapAnimation"
+        android:layout_alignStart="@+id/googleMapAnimation" />
 
     <Button
         android:id="@+id/facebookLogin"
         android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_70"
-        android:layout_below="@id/googleMapAnimation"
-        android:text="@string/facebookLogin" />
+        android:text="@string/facebookLogin"
+        android:layout_below="@+id/calendarButton"
+        android:layout_alignLeft="@+id/calendarButton"
+        android:layout_alignStart="@+id/calendarButton" />
 </RelativeLayout>

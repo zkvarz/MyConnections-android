@@ -1,4 +1,4 @@
-package com.example.myconnections_android.helpers;
+package com.example.myconnections_android.core.structure.helpers;
 
 import android.util.Log;
 

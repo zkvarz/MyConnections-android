@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import com.example.myconnections_android.R;
-import com.example.myconnections_android.helpers.Logger;
+import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.ui.fragments.SyncedMapFragment;
 import com.example.myconnections_android.ui.map.animations.LatLngInterpolator;
 import com.google.android.gms.maps.CameraUpdate;

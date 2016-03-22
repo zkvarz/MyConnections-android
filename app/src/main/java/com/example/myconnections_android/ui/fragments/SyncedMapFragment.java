@@ -15,7 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
-import com.example.myconnections_android.helpers.Logger;
+import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.ui.map.animations.LatLngInterpolator;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
