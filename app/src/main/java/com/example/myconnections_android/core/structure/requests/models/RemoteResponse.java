@@ -29,46 +29,16 @@ public class RemoteResponse {
 
     @Override
     public String toString() {
-    return mStream;
+        return mStream;
     }
 
-    /*@Override
+/*    @Override
     public String toString() {
-       *//* try {
+        try {
             return IOUtils.toString(mStream);
         } catch (IOException e) {
             e.printStackTrace();
-        }*//*
-
- *//*       BufferedReader r = new BufferedReader(new InputStreamReader(mStream));
-        StringBuilder total = new StringBuilder();
-        String line = "";
-        try {
-            while ((line = r.readLine()) != null) {
-                Logger.debug(this.getClass(), total.append(line).toString());
-                return total.append(line).toString();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*//*
-
-        try {
-            StringBuilder response = new StringBuilder("");
-
-            String line = null;
-            BufferedReader in = null;
-            in = new BufferedReader(new InputStreamReader(mStream, "UTF-8"));
-
-            while ((line = in.readLine()) != null) {
-                response.append(line);
-            }
-            Logger.debug(this.getClass(), "AWESOME!" + response.toString());
-            return response.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-
         return null;
     }*/
 }

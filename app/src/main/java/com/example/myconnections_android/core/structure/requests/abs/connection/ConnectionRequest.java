@@ -9,8 +9,15 @@ import com.example.myconnections_android.core.structure.models.error.StringError
 import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 import com.example.myconnections_android.core.structure.requests.mock.IWorker;
 
+
 /**
  * Created by kvarivoda on 23.03.2016.
+ */
+
+/**
+ * Abstract class for background work
+ *
+ * @param <T> - type of Returned value
  */
 public abstract class ConnectionRequest<T> implements ICallback<T>, Runnable, IWorker {
 
@@ -22,6 +29,9 @@ public abstract class ConnectionRequest<T> implements ICallback<T>, Runnable, IW
         this.callback = callback;
     }
 
+    /**
+     * Method that starts background work
+     */
     public void execute() {
         new Thread(this).start();
     }
@@ -34,7 +44,6 @@ public abstract class ConnectionRequest<T> implements ICallback<T>, Runnable, IW
             onError(new StringError(e.toString()));
         }
     }
-
 
     @Override
     public void onSuccess(final T t) {
