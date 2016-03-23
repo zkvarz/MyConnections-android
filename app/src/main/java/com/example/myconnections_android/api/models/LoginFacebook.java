@@ -5,11 +5,11 @@ package com.example.myconnections_android.api.models;
  */
 public class LoginFacebook {
     private String id;
-    private String token;
+    private String facebookToken;
 
-    public LoginFacebook(String id, String token) {
+    public LoginFacebook(String id, String facebookToken) {
         this.id = id;
-        this.token = token;
+        this.facebookToken = facebookToken;
     }
 
     public String getId() {
@@ -20,11 +20,11 @@ public class LoginFacebook {
         this.id = id;
     }
 
-    public String getToken() {
-        return token;
+    public String getFacebookToken() {
+        return facebookToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setFacebookToken(String facebookToken) {
+        this.facebookToken = facebookToken;
     }
 }

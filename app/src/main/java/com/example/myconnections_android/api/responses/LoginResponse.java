@@ -8,6 +8,7 @@ public class LoginResponse {
     private String phone;
     private String social;
     private String facebookId;
+    private String facebookToken;
     private String token;
 
     public String get_id() {
@@ -48,5 +49,13 @@ public class LoginResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getFacebookToken() {
+        return facebookToken;
+    }
+
+    public void setFacebookToken(String facebookToken) {
+        this.facebookToken = facebookToken;
     }
 }
