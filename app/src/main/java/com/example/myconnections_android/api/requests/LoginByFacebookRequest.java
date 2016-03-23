@@ -18,6 +18,7 @@ import static com.example.myconnections_android.api.Api.getLoginByFacebookUrl;
 /**
  * Created by kvarivoda on 22.03.2016.
  */
+@Deprecated
 public class LoginByFacebookRequest extends PostRequest<LoginResponse> {
 
     private final LoginFacebook loginFacebook;

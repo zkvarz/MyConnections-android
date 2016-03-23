@@ -13,6 +13,8 @@ import com.example.myconnections_android.core.structure.requests.mock.IWorker;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Abstract class for background work
@@ -23,7 +25,7 @@ public abstract class Request<T> implements Runnable, IWorker<T>,
         ICallback<T> {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
- //   private static final ExecutorService service = Executors.newCachedThreadPool();
+    private static final ExecutorService service = Executors.newCachedThreadPool();
 
     private ICallback<T> mCallback;
 
@@ -37,10 +39,9 @@ public abstract class Request<T> implements Runnable, IWorker<T>,
      */
     public void execute() {
         new Thread(this).start();
-      //  service.execute(this);
+        //  service.execute(this);
         // mExecutor.start();
     }
-
 
     @Override
     public void run() {

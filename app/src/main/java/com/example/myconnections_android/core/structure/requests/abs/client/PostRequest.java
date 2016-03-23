@@ -1,6 +1,5 @@
 package com.example.myconnections_android.core.structure.requests.abs.client;
 
-import com.example.myconnections_android.core.structure.requests.abs.client.HttpRequestFactory;
 import com.example.myconnections_android.core.structure.requests.abs.client.base.EntityRequest;
 import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 

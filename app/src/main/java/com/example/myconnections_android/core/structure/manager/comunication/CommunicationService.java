@@ -125,7 +125,9 @@ public class CommunicationService {
         } catch (Exception e) {
             Logger.error(getClass(), "Error reading response", e);
         }
-        return new RemoteResponse(is, statusCode);
+//        return new RemoteResponse(is, statusCode);
+        //TODO
+        return null;
     }
 
     private HttpResponse executeRequest(HttpClient client, HttpRequestBase request) {
