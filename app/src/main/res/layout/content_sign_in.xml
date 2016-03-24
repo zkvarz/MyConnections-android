@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:visibility="visible"
+    android:visibility="gone"
     android:id="@+id/enterPhoneLayout"
     android:orientation="vertical">
 
@@ -24,7 +24,7 @@
         android:inputType="phone" />
 
     <Button
-        android:id="@+id/facebookLogin"
+        android:id="@+id/sendPhoneButton"
         android:layout_width="@dimen/dimen_110"
         android:layout_height="@dimen/dimen_70"
         android:layout_gravity="center_horizontal"

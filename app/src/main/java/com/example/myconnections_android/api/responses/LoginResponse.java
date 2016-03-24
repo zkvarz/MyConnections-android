@@ -4,19 +4,20 @@ package com.example.myconnections_android.api.responses;
  * Created by kvarivoda on 22.03.2016.
  */
 public class LoginResponse {
-    private String _id;
+    private String id;
     private String phone;
     private String social;
     private String facebookId;
     private String facebookToken;
     private String token;
+    private String expires;
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPhone() {
@@ -57,5 +58,13 @@ public class LoginResponse {
 
     public void setFacebookToken(String facebookToken) {
         this.facebookToken = facebookToken;
+    }
+
+    public String getExpires() {
+        return expires;
+    }
+
+    public void setExpires(String expires) {
+        this.expires = expires;
     }
 }

@@ -15,11 +15,9 @@ import android.widget.Toast;
 import com.example.myconnections_android.R;
 import com.example.myconnections_android.api.models.FacebookUserResponse;
 import com.example.myconnections_android.api.models.LoginFacebook;
-import com.example.myconnections_android.api.models.Session;
-import com.example.myconnections_android.api.requests.GetUsersRequest;
 import com.example.myconnections_android.api.requests.LoginFacebookRequest;
+import com.example.myconnections_android.api.requests.UpdateUserRequest;
 import com.example.myconnections_android.api.responses.LoginResponse;
-import com.example.myconnections_android.api.responses.UsersResponse;
 import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.core.structure.models.error.IError;
 import com.example.myconnections_android.core.structure.requests.mock.ICallback;
@@ -35,7 +33,6 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static android.text.TextUtils.isEmpty;
@@ -43,6 +40,9 @@ import static android.text.TextUtils.isEmpty;
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CallbackManager callbackManager;
+    private EditText phoneText;
+
+    private static LoginResponse loginResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Button facebookLogin = (Button) findViewById(R.id.facebookLogin);
         facebookLogin.setOnClickListener(this);
 
-        String sessionString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2ZjI3OTdmYThlYzcwNTkwNzU2ZWE5NSIsImV4cCI6MTQ2MDA1OTY2Nn0.yMOdPmlnHynvcLol-GX3-6sg4ycoxv4i0vSs_Qqk2h8";
+      /*  String sessionString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2ZjI3OTdmYThlYzcwNTkwNzU2ZWE5NSIsImV4cCI6MTQ2MDA1OTY2Nn0.yMOdPmlnHynvcLol-GX3-6sg4ycoxv4i0vSs_Qqk2h8";
         new GetUsersRequest(new Session(sessionString), new ICallback<ArrayList<UsersResponse>>() {
             @Override
             public void onSuccess(ArrayList<UsersResponse> usersResponse) {
@@ -66,7 +66,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 Logger.debug(getClass(), "GetUsersRequest ERROR " + error.getErrorMessage());
                 Toast.makeText(getApplicationContext(), "ERROR!" + error.getErrorMessage(), Toast.LENGTH_LONG).show();
             }
-        }).execute();
+        }).execute();*/
 
     }
 
@@ -151,17 +151,51 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         });
                 LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile", "user_friends"));
                 break;
-
+            case R.id.sendPhoneButton:
+                Logger.debug(getClass(), "sendPhoneButton");
+                if (!isEmpty(phoneText.getText())) {
+                    updateProfile();
+                }
+                break;
         }
+    }
+
+    private void updateProfile() {
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(SignInActivity.loginResponse.getToken());
+        loginResponse.setPhone(phoneText.getText().toString());
+
+        new UpdateUserRequest(loginResponse, new ICallback<LoginResponse>() {
+            @Override
+            public void onSuccess(LoginResponse loginResponse) {
+                Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+                Logger.debug(getClass(), "loginResponse ");
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+
+            @Override
+            public void onError(IError error) {
+                Logger.debug(getClass(), "updateProfile ERROR " + error.getErrorMessage());
+            }
+        }).execute();
     }
 
     private void facebookLogin(String id, String token) {
         //TODO: TEMPRORARY ADDING NUMBER!!!
-        new LoginFacebookRequest(new LoginFacebook(id + "228", token), new ICallback<LoginResponse>() {
+        new LoginFacebookRequest(new LoginFacebook(id /*+ "228"*/, token), new ICallback<LoginResponse>() {
+
             @Override
             public void onSuccess(LoginResponse loginResponse) {
                 Logger.debug(getClass(), "FACEBOOK LOGIN RESPONSE ");
-                Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+
+                SignInActivity.loginResponse = loginResponse;
+
+                if (isEmpty(loginResponse.getPhone())) {
+                    showPhoneLayout();
+                } else {
+                    Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
             }
 
             @Override
@@ -171,15 +205,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             }
         }).execute();
 
-        findViewById(R.id.registerLayout).setVisibility(View.INVISIBLE);
-        findViewById(R.id.socialLayout).setVisibility(View.INVISIBLE);
+    }
+
+    private void showPhoneLayout() {
+        Logger.debug(getClass(), "showPhoneLayout");
+        findViewById(R.id.registerLayout).setVisibility(View.GONE);
+        findViewById(R.id.socialLayout).setVisibility(View.GONE);
         LinearLayout enterPhoneLayout = (LinearLayout) findViewById(R.id.enterPhoneLayout);
         enterPhoneLayout.setVisibility(View.VISIBLE);
-        EditText phone = (EditText) enterPhoneLayout.findViewById(R.id.phone);
+        phoneText = (EditText) enterPhoneLayout.findViewById(R.id.phone);
+        Button sendPhoneButton = (Button) enterPhoneLayout.findViewById(R.id.sendPhoneButton);
+        sendPhoneButton.setOnClickListener(this);
 
-        if (!isEmpty(phone.getText())) {
-
-        }
-        // If user is not registered, ask phone number:
     }
 }

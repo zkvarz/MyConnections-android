@@ -12,6 +12,7 @@ public class Api {
     private static final String CREATE_USER = "createUser";
     private static final String LOGIN_BY_FACEBOOK = "facebookLogin";
     private static final String GET_USERS = "getUsers";
+    private static final String UPDATE_USER = "updateUser";
 
     private static Uri.Builder getAccountUriBuilder() {
         return getRootUriBuilder().appendPath(ACCOUNT);
@@ -39,6 +40,13 @@ public class Api {
     public static String getUsersUrl() {
         return getAccountUriBuilder()
                 .appendPath(GET_USERS)
+                .build()
+                .toString();
+    }
+
+    public static String getUpdateUserUrl() {
+        return getAccountUriBuilder()
+                .appendPath(UPDATE_USER)
                 .build()
                 .toString();
     }
