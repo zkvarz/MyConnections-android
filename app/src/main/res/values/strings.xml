@@ -6,6 +6,9 @@
     <string name="title_activity_map_animation">MapAnimationActivity</string>
 
     <string name="facebook_app_id">567980196692866</string>
+    <string name="server_client_id">356569675251-vcq1jmfqsiccvidtsap7nfckvama6228.apps.googleusercontent.com</string>
+
+
     <string name="facebookLogin">Facebook Login</string>
     <string name="googleLogin">Google Login</string>
     <string name="twitterLogin">Twitter Login</string>

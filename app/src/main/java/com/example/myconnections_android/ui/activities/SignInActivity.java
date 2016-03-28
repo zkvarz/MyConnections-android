@@ -29,6 +29,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -37,20 +43,39 @@ import java.util.Arrays;
 
 import static android.text.TextUtils.isEmpty;
 
-public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignInActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private CallbackManager callbackManager;
     private EditText phoneText;
+    private GoogleApiClient mGoogleApiClient;
 
     private static LoginResponse loginResponse;
+    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
         Button facebookLogin = (Button) findViewById(R.id.facebookLogin);
         facebookLogin.setOnClickListener(this);
+        Button googleLogin = (Button) findViewById(R.id.googleLogin);
+        googleLogin.setOnClickListener(this);
+
 
       /*  String sessionString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2ZjI3OTdmYThlYzcwNTkwNzU2ZWE5NSIsImV4cCI6MTQ2MDA1OTY2Nn0.yMOdPmlnHynvcLol-GX3-6sg4ycoxv4i0vSs_Qqk2h8";
         new GetUsersRequest(new Session(sessionString), new ICallback<ArrayList<UsersResponse>>() {
@@ -73,8 +98,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (callbackManager != null)
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         Logger.debug(getClass(), "onActivityResult requestCode");
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+
     }
 
     @Override
@@ -151,6 +184,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         });
                 LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile", "user_friends"));
                 break;
+            case R.id.googleLogin:
+                googleSignIn();
+                break;
             case R.id.sendPhoneButton:
                 Logger.debug(getClass(), "sendPhoneButton");
                 if (!isEmpty(phoneText.getText())) {
@@ -158,6 +194,47 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
         }
+    }
+
+    private void googleSignIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Logger.debug(getClass(), "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            Logger.debug(getClass(), "acct.getDisplayName() " + acct.getDisplayName());
+            Logger.debug(getClass(), "acct.getId() " + acct.getId());
+            Logger.debug(getClass(), "acct.getIdToken() " + acct.getIdToken());
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            googleServerSignIn(acct.getIdToken());
+        } else {
+            // Signed out, show unauthenticated UI.
+            Toast.makeText(getApplicationContext(), "Authorization error!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void googleServerSignIn(String idToken) {
+       /* HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://yourbackend.example.com/tokensignin");
+
+        try {
+            List nameValuePairs = new ArrayList(1);
+            nameValuePairs.add(new BasicNameValuePair("idToken", idToken));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            HttpResponse response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            final String responseBody = EntityUtils.toString(response.getEntity());
+            Logger.info(getClass(), "Signed in as: " + responseBody);
+        } catch (ClientProtocolException e) {
+            Logger.error(getClass(), "Error sending ID token to backend.", e);
+        } catch (IOException e) {
+            Logger.error(getClass(), "Error sending ID token to backend.", e);
+        }*/
     }
 
     private void updateProfile() {
@@ -217,5 +294,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Button sendPhoneButton = (Button) enterPhoneLayout.findViewById(R.id.sendPhoneButton);
         sendPhoneButton.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Logger.debug(getClass(), "onConnectionFailed:" + connectionResult.getErrorMessage());
     }
 }
