@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.example.myconnections_android.R;
 import com.example.myconnections_android.api.models.FacebookUserResponse;
 import com.example.myconnections_android.api.models.LoginFacebook;
+import com.example.myconnections_android.api.models.Session;
 import com.example.myconnections_android.api.requests.LoginFacebookRequest;
+import com.example.myconnections_android.api.requests.LoginTwitterRequest;
 import com.example.myconnections_android.api.requests.UpdateUserRequest;
 import com.example.myconnections_android.api.responses.LoginResponse;
 import com.example.myconnections_android.core.structure.helpers.Logger;
@@ -36,6 +38,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import org.json.JSONObject;
 
@@ -48,6 +54,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private CallbackManager callbackManager;
     private EditText phoneText;
     private GoogleApiClient mGoogleApiClient;
+    private TwitterAuthClient client;
 
     private static LoginResponse loginResponse;
     private static final int RC_SIGN_IN = 9001;
@@ -71,10 +78,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        client = new TwitterAuthClient();
+
         Button facebookLogin = (Button) findViewById(R.id.facebookLogin);
         facebookLogin.setOnClickListener(this);
         Button googleLogin = (Button) findViewById(R.id.googleLogin);
         googleLogin.setOnClickListener(this);
+        Button twitterLogin = (Button) findViewById(R.id.twitterLogin);
+        twitterLogin.setOnClickListener(this);
 
 
       /*  String sessionString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2ZjI3OTdmYThlYzcwNTkwNzU2ZWE5NSIsImV4cCI6MTQ2MDA1OTY2Nn0.yMOdPmlnHynvcLol-GX3-6sg4ycoxv4i0vSs_Qqk2h8";
@@ -107,7 +118,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
-
+        client.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -193,13 +204,41 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     updateProfile();
                 }
                 break;
+            case R.id.twitterLogin:
+                authorizeTwitter();
+                break;
         }
+    }
+
+    public void authorizeTwitter() {
+        client.authorize(this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
+
+            @Override
+            public void success(final Result<TwitterSession> twitterSessionResult) {
+                String output = "Status: " +
+                        "Your login was successful " +
+                        twitterSessionResult.data.getUserName() +
+                        "\nAuth Token Received: " +
+                        twitterSessionResult.data.getAuthToken().token +
+                        "\nUserId: " +
+                        twitterSessionResult.data.getUserId();
+
+                Log.e("output", output);
+                twitterLogin(twitterSessionResult.data.getAuthToken().token);
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void googleSignIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
 
     private void handleSignInResult(GoogleSignInResult result) {
         Logger.debug(getClass(), "handleSignInResult:" + result.isSuccess());
@@ -217,24 +256,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void googleServerSignIn(String idToken) {
-       /* HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("https://yourbackend.example.com/tokensignin");
+    private void googleServerSignIn(final String idToken) {
 
-        try {
-            List nameValuePairs = new ArrayList(1);
-            nameValuePairs.add(new BasicNameValuePair("idToken", idToken));
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            int statusCode = response.getStatusLine().getStatusCode();
-            final String responseBody = EntityUtils.toString(response.getEntity());
-            Logger.info(getClass(), "Signed in as: " + responseBody);
-        } catch (ClientProtocolException e) {
-            Logger.error(getClass(), "Error sending ID token to backend.", e);
-        } catch (IOException e) {
-            Logger.error(getClass(), "Error sending ID token to backend.", e);
-        }*/
     }
 
     private void updateProfile() {
@@ -282,6 +305,20 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             }
         }).execute();
 
+    }
+
+    private void twitterLogin(String token) {
+        new LoginTwitterRequest(new Session(token), new ICallback<LoginResponse>() {
+            @Override
+            public void onSuccess(LoginResponse loginResponse) {
+                Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(IError error) {
+                Logger.debug(getClass(), "twitterLogin ERROR " + error.getErrorMessage());
+            }
+        }).execute();
     }
 
     private void showPhoneLayout() {
