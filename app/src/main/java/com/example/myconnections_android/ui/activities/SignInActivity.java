@@ -39,6 +39,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -223,8 +224,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         "\nUserId: " +
                         twitterSessionResult.data.getUserId();
 
+                TwitterAuthToken authToken = twitterSessionResult.data.getAuthToken();
+
                 Log.e("output", output);
-                twitterLogin(twitterSessionResult.data.getAuthToken().token);
+                twitterLogin(authToken.token, authToken.secret);
             }
 
             @Override
@@ -307,8 +310,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void twitterLogin(String token) {
-        new LoginTwitterRequest(new Session(token), new ICallback<LoginResponse>() {
+    private void twitterLogin(String token, String secret) {
+        new LoginTwitterRequest(new Session(token, secret), new ICallback<LoginResponse>() {
             @Override
             public void onSuccess(LoginResponse loginResponse) {
                 Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
