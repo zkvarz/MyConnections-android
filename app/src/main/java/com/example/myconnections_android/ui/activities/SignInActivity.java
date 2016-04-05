@@ -24,6 +24,7 @@ import com.example.myconnections_android.api.responses.LoginResponse;
 import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.core.structure.models.error.IError;
 import com.example.myconnections_android.core.structure.requests.mock.ICallback;
+import com.example.myconnections_android.preferences.AppPreference;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -271,6 +272,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             public void onSuccess(LoginResponse loginResponse) {
                 Logger.debug(getClass(), "GOOGLE LOGIN RESPONSE ");
 
+                AppPreference.getInstance().setLoginResponse(new Gson().toJson(loginResponse));
                 SignInActivity.loginResponse = loginResponse;
 
                 if (isEmpty(loginResponse.getPhone())) {
@@ -318,6 +320,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             public void onSuccess(LoginResponse loginResponse) {
                 Logger.debug(getClass(), "FACEBOOK LOGIN RESPONSE ");
 
+                AppPreference.getInstance().setLoginResponse(new Gson().toJson(loginResponse));
                 SignInActivity.loginResponse = loginResponse;
 
                 if (isEmpty(loginResponse.getPhone())) {
@@ -341,6 +344,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         new LoginTwitterRequest(new Session(token, secret), new ICallback<LoginResponse>() {
             @Override
             public void onSuccess(LoginResponse loginResponse) {
+
+                AppPreference.getInstance().setLoginResponse(new Gson().toJson(loginResponse));
                 SignInActivity.loginResponse = loginResponse;
 
                 if (isEmpty(loginResponse.getPhone())) {

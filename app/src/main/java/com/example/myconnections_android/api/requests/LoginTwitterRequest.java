@@ -9,7 +9,7 @@ import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 import com.example.myconnections_android.core.structure.requests.models.RemoteResponse;
 import com.google.gson.Gson;
 
-import static com.example.myconnections_android.api.Api.getLoginByTwitterUrl;
+import static com.example.myconnections_android.api.ApiUrl.getLoginByTwitterUrl;
 
 /**
  * Created by kvarivoda on 31.03.2016.

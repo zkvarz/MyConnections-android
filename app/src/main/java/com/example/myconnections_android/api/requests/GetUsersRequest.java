@@ -13,7 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.myconnections_android.api.Api.getUsersUrl;
+import static com.example.myconnections_android.api.ApiUrl.getUsersUrl;
 
 /**
  * Created by kvarivoda on 23.03.2016.

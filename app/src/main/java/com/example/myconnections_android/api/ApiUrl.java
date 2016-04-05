@@ -5,7 +5,7 @@ import android.net.Uri;
 /**
  * Builds urls for all kind of requests
  */
-public class Api {
+public class ApiUrl {
     private static final String SCHEMA = "https";
     private static final String DEV_SERVER = "myconnections-backend-zkvarz.c9users.io";
     private static final String ACCOUNT = "account";
@@ -15,9 +15,16 @@ public class Api {
     private static final String LOGIN_BY_GOOGLE = "googleLogin";
     private static final String GET_USERS = "getUsers";
     private static final String UPDATE_USER = "updateUser";
+    private static final String USER = "user";
+    private static final String GCM_CHAT = "gcmChat";
+    private static final String GCM_REGISTRATION = "gcmRegistration";
 
     private static Uri.Builder getAccountUriBuilder() {
         return getRootUriBuilder().appendPath(ACCOUNT);
+    }
+
+    private static Uri.Builder getChatUriBuilder() {
+        return getRootUriBuilder().appendPath(GCM_CHAT);
     }
 
     public static Uri.Builder getRootUriBuilder() {
@@ -66,5 +73,14 @@ public class Api {
                 .build()
                 .toString();
     }
+
+    public static String getGcmRegistrationUrl() {
+        return getChatUriBuilder()
+                .appendPath(GCM_REGISTRATION)
+                .build()
+                .toString();
+    }
+
+
 
 }

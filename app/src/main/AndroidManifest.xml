@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myconnections_android">
 
+    <!-- Additional permissions if needed -->
     <!--
         <permission
         android:name="in.wptrafficanalyzer.locationpolyline.permission.MAPS_RECEIVE"
@@ -60,9 +61,34 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-<!--        <meta-data
-            android:name="com.fabric.ApiKey"
-            android:value="3btcNQUEvlEIH6S4UPpFsDxqI" />-->
+        <!-- START Added for GCM -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="info.androidhive.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".gcm.MyGcmPushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".gcm.GcmIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <!-- END Added for GCM -->
     </application>
 
 </manifest>

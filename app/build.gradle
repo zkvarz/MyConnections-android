@@ -45,6 +45,7 @@ dependencies {
     compile 'com.android.support:design:23.0.0'
     compile 'com.google.android.gms:play-services-maps:8.4.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.prolificinteractive:material-calendarview:1.2.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.google.code.gson:gson:2.6.2'

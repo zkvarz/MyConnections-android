@@ -8,7 +8,7 @@ import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 import com.example.myconnections_android.core.structure.requests.models.RemoteResponse;
 import com.google.gson.Gson;
 
-import static com.example.myconnections_android.api.Api.getUpdateUserUrl;
+import static com.example.myconnections_android.api.ApiUrl.getUpdateUserUrl;
 
 /**
  * Created by kvarivoda on 24.03.2016.

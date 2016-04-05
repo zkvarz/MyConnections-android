@@ -1,6 +1,6 @@
 package com.example.myconnections_android.api.requests;
 
-import com.example.myconnections_android.api.models.Session;
+import com.example.myconnections_android.api.models.GcmToken;
 import com.example.myconnections_android.api.responses.ErrorResponse;
 import com.example.myconnections_android.api.responses.LoginResponse;
 import com.example.myconnections_android.core.structure.helpers.Logger;
@@ -9,17 +9,17 @@ import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 import com.example.myconnections_android.core.structure.requests.models.RemoteResponse;
 import com.google.gson.Gson;
 
-import static com.example.myconnections_android.api.ApiUrl.getLoginByGoogleUrl;
+import static com.example.myconnections_android.api.ApiUrl.getGcmRegistrationUrl;
 
 /**
- * Created by kvarivoda on 04.04.2016.
+ * Created by kvarivoda on 05.04.2016.
  */
-public class LoginGoogleRequest extends PostConnection<LoginResponse> {
-    private Session session;
+public class GcmRegistrationRequest extends PostConnection<LoginResponse> {
+    private GcmToken gcmToken;
 
-    public LoginGoogleRequest(Session session, ICallback<LoginResponse> iCallback) {
+    public GcmRegistrationRequest(GcmToken gcmToken, ICallback<LoginResponse> iCallback) {
         super(iCallback);
-        this.session = session;
+        this.gcmToken = gcmToken;
     }
 
     @Override
@@ -39,13 +39,13 @@ public class LoginGoogleRequest extends PostConnection<LoginResponse> {
 
     @Override
     protected String buildUrl() {
-        return getLoginByGoogleUrl();
+        return getGcmRegistrationUrl();
     }
 
     @Override
     protected String buildRequestBody() {
         try {
-            return new Gson().toJson(session);
+            return new Gson().toJson(gcmToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
