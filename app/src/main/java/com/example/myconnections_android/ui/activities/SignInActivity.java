@@ -17,6 +17,7 @@ import com.example.myconnections_android.api.models.FacebookUserResponse;
 import com.example.myconnections_android.api.models.LoginFacebook;
 import com.example.myconnections_android.api.models.Session;
 import com.example.myconnections_android.api.requests.LoginFacebookRequest;
+import com.example.myconnections_android.api.requests.LoginGoogleRequest;
 import com.example.myconnections_android.api.requests.LoginTwitterRequest;
 import com.example.myconnections_android.api.requests.UpdateUserRequest;
 import com.example.myconnections_android.api.responses.LoginResponse;
@@ -112,14 +113,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         if (callbackManager != null)
             callbackManager.onActivityResult(requestCode, resultCode, data);
-        Logger.debug(getClass(), "onActivityResult requestCode");
+        Logger.debug(getClass(), "onActivityResult requestCode " + requestCode);
+        Logger.debug(getClass(), "onActivityResult resultCode " + resultCode);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            handleGoogleSignInResult(result);
+        } else {
+            client.onActivityResult(requestCode, resultCode, data);
         }
-        client.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
@@ -175,7 +179,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                                                 FacebookUserResponse facebookUserResponse = new Gson().fromJson(object.toString(), FacebookUserResponse.class);
                                                 Log.d("MY ID", "facebookUserResponse id" + facebookUserResponse.getId());
                                                 Log.d("MY ID", "facebookUserResponse name" + facebookUserResponse.getName());
-                                                facebookLogin(facebookUserResponse.getId(), loginResult.getAccessToken().getToken());
+                                                facebookServerLogin(facebookUserResponse.getId(), loginResult.getAccessToken().getToken());
                                             }
                                         });
                                 Bundle parameters = new Bundle();
@@ -227,7 +231,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 TwitterAuthToken authToken = twitterSessionResult.data.getAuthToken();
 
                 Log.e("output", output);
-                twitterLogin(authToken.token, authToken.secret);
+                Logger.debug(SignInActivity.class.getClass(), "twitter token " + authToken.token);
+                Logger.debug(SignInActivity.class.getClass(), "twitter secret " + authToken.secret);
+                twitterServerLogin(authToken.token, authToken.secret);
             }
 
             @Override
@@ -243,15 +249,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Logger.debug(getClass(), "handleSignInResult:" + result.isSuccess());
+    private void handleGoogleSignInResult(GoogleSignInResult result) {
+        Logger.debug(getClass(), "handleGoogleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Logger.debug(getClass(), "acct.getDisplayName() " + acct.getDisplayName());
             Logger.debug(getClass(), "acct.getId() " + acct.getId());
             Logger.debug(getClass(), "acct.getIdToken() " + acct.getIdToken());
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             googleServerSignIn(acct.getIdToken());
         } else {
             // Signed out, show unauthenticated UI.
@@ -260,7 +265,29 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void googleServerSignIn(final String idToken) {
+        new LoginGoogleRequest(new Session(idToken, null), new ICallback<LoginResponse>() {
 
+            @Override
+            public void onSuccess(LoginResponse loginResponse) {
+                Logger.debug(getClass(), "GOOGLE LOGIN RESPONSE ");
+
+                SignInActivity.loginResponse = loginResponse;
+
+                if (isEmpty(loginResponse.getPhone())) {
+                    Toast.makeText(getApplicationContext(), "showPhoneLayout!", Toast.LENGTH_LONG).show();
+                    showPhoneLayout();
+                } else {
+                    Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
+            }
+
+            @Override
+            public void onError(IError error) {
+                Logger.debug(getClass(), "GOOGLE LOGIN ERROR " + error.getErrorMessage());
+                Toast.makeText(getApplicationContext(), "ERROR!" + error.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
+        }).execute();
     }
 
     private void updateProfile() {
@@ -283,8 +310,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }).execute();
     }
 
-    private void facebookLogin(String id, String token) {
-        //TODO: TEMPRORARY ADDING NUMBER!!!
+    private void facebookServerLogin(String id, String token) {
+        //TEMPRORARY ADDING NUMBER!!!
         new LoginFacebookRequest(new LoginFacebook(id /*+ "228"*/, token), new ICallback<LoginResponse>() {
 
             @Override
@@ -310,16 +337,24 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void twitterLogin(String token, String secret) {
+    private void twitterServerLogin(String token, String secret) {
         new LoginTwitterRequest(new Session(token, secret), new ICallback<LoginResponse>() {
             @Override
             public void onSuccess(LoginResponse loginResponse) {
-                Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+                SignInActivity.loginResponse = loginResponse;
+
+                if (isEmpty(loginResponse.getPhone())) {
+                    Toast.makeText(getApplicationContext(), "showPhoneLayout!", Toast.LENGTH_LONG).show();
+                    showPhoneLayout();
+                } else {
+                    Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
             }
 
             @Override
             public void onError(IError error) {
-                Logger.debug(getClass(), "twitterLogin ERROR " + error.getErrorMessage());
+                Logger.debug(getClass(), "twitterServerLogin ERROR " + error.getErrorMessage());
             }
         }).execute();
     }

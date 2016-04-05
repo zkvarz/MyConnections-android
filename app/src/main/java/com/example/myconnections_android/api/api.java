@@ -12,6 +12,7 @@ public class Api {
     private static final String CREATE_USER = "createUser";
     private static final String LOGIN_BY_FACEBOOK = "facebookLogin";
     private static final String LOGIN_BY_TWITTER = "twitterLogin";
+    private static final String LOGIN_BY_GOOGLE = "googleLogin";
     private static final String GET_USERS = "getUsers";
     private static final String UPDATE_USER = "updateUser";
 
@@ -41,6 +42,13 @@ public class Api {
     public static String getLoginByTwitterUrl() {
         return getAccountUriBuilder()
                 .appendPath(LOGIN_BY_TWITTER)
+                .build()
+                .toString();
+    }
+
+    public static String getLoginByGoogleUrl() {
+        return getAccountUriBuilder()
+                .appendPath(LOGIN_BY_GOOGLE)
                 .build()
                 .toString();
     }
