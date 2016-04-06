@@ -15,6 +15,7 @@ public class AppPreference {
     public static final String SHARED_PREF = "sharedPref";
     public static final String LOGIN_RESPONSE = "LOGIN_RESPONSE";
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    private static final String KEY_NOTIFICATIONS = "notifications";
 
     private static AppPreference appPreference;
     private static SharedPreferences sharedPreference;
@@ -57,6 +58,26 @@ public class AppPreference {
         SharedPreferences.Editor prefsEditor = getSharedPreference().edit();
         prefsEditor.putBoolean(SENT_TOKEN_TO_SERVER, isSentToken);
         prefsEditor.apply();
+    }
+
+    public void addNotification(String notification) {
+
+        // get old notifications
+        String oldNotifications = getNotifications();
+
+        if (oldNotifications != null) {
+            oldNotifications += "|" + notification;
+        } else {
+            oldNotifications = notification;
+        }
+
+        //TODO: can be shortened to "edit"
+        getSharedPreference().edit().putString(KEY_NOTIFICATIONS, oldNotifications);
+        getSharedPreference().edit().commit();
+    }
+
+    public String getNotifications() {
+        return sharedPreference.getString(KEY_NOTIFICATIONS, null);
     }
 
 }

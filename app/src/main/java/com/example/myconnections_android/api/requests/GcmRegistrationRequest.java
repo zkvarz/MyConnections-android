@@ -25,13 +25,13 @@ public class GcmRegistrationRequest extends PostConnection<LoginResponse> {
     @Override
     protected void parseResponse(RemoteResponse remoteResponse) {
         String responseString = remoteResponse.toString();
-        Logger.debug(getClass(), "LoginFacebookRequest responseString: " + responseString);
+        Logger.debug(getClass(), "GcmRegistrationRequest responseString: " + responseString);
         if (remoteResponse.isSuccess()) {
-            Logger.debug(getClass(), "LoginFacebookRequest SUCCESS: " + responseString);
+            Logger.debug(getClass(), "GcmRegistrationRequest SUCCESS: " + responseString);
             LoginResponse loginResponse = new Gson().fromJson(responseString, LoginResponse.class);
             onSuccess(loginResponse);
         } else {
-            Logger.error(getClass(), "LoginFacebookRequest ERROR: " + responseString);
+            Logger.error(getClass(), "GcmRegistrationRequest ERROR: " + responseString);
             ErrorResponse apiError = new Gson().fromJson(responseString, ErrorResponse.class);
             onError(apiError.getError());
         }
@@ -45,6 +45,7 @@ public class GcmRegistrationRequest extends PostConnection<LoginResponse> {
     @Override
     protected String buildRequestBody() {
         try {
+            Logger.debug(getClass(), "JSON " + new Gson().toJson(gcmToken));
             return new Gson().toJson(gcmToken);
         } catch (Exception e) {
             e.printStackTrace();

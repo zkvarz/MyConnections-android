@@ -46,4 +46,13 @@
         android:layout_alignLeft="@+id/googleMapAnimation"
         android:layout_alignStart="@+id/googleMapAnimation" />
 
+    <Button
+        android:id="@+id/chatButton"
+        android:layout_width="@dimen/dimen_180"
+        android:layout_height="@dimen/dimen_70"
+        android:text="@string/chatButton"
+        android:layout_below="@+id/calendarButton"
+        android:layout_alignLeft="@+id/googleMapAnimation"
+        android:layout_alignStart="@+id/googleMapAnimation" />
+
 </RelativeLayout>

@@ -47,12 +47,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.prolificinteractive:material-calendarview:1.2.0'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.google.code.gson:gson:2.6.2'
 
-   /* compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
-    }*/
     // Twitter Kit
     compile('com.twitter.sdk.android:twitter:1.12.0@aar') {
         transitive = true

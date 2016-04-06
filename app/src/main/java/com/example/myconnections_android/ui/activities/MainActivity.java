@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         googleMapAnimation.setOnClickListener(this);
         Button calendarButton = (Button) findViewById(R.id.calendarButton);
         calendarButton.setOnClickListener(this);
+        Button chatButton = (Button) findViewById(R.id.chatButton);
+        chatButton.setOnClickListener(this);
     }
 
 
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.calendarButton:
                 startActivity(new Intent(this, CalendarActivity.class));
+                break;
+            case R.id.chatButton:
+                startActivity(new Intent(this, ChatActivity.class));
                 break;
         }
     }
