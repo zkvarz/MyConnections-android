@@ -91,9 +91,9 @@ public class GcmIntentService extends IntentService {
             return;
         }
 
-        new GcmRegistrationRequest(new GcmToken(gcmToken, loginResponse.getToken()), new ICallback<LoginResponse>() {
+        new GcmRegistrationRequest(new GcmToken(gcmToken, loginResponse.getToken()), new ICallback<String>() {
             @Override
-            public void onSuccess(LoginResponse loginResponse) {
+            public void onSuccess(String response) {
                 Toast.makeText(getApplicationContext(), "TOKEN SENT!", Toast.LENGTH_LONG).show();
                 Logger.debug(getClass(), "TOKEN SENT!");
 

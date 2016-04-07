@@ -3,6 +3,7 @@ package com.example.myconnections_android.preferences;
 import android.content.SharedPreferences;
 
 import com.example.myconnections_android.api.responses.LoginResponse;
+import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.core.structure.main.CoreApplication;
 import com.google.gson.Gson;
 
@@ -80,4 +81,13 @@ public class AppPreference {
         return sharedPreference.getString(KEY_NOTIFICATIONS, null);
     }
 
+    public boolean isSessionValid() {
+        long currentTimeSeconds = System.currentTimeMillis() / 1000;
+        if (getLoginResponse() != null) {
+            Logger.debug(getClass(), "currentTime " + currentTimeSeconds);
+            Logger.debug(getClass(), "getExpires " + getLoginResponse().getExpires());
+            return currentTimeSeconds < Long.valueOf(getLoginResponse().getExpires());
+        }
+        return false;
+    }
 }

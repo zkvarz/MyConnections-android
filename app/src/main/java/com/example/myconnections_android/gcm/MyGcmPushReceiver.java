@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myconnections_android.api.responses.LoginResponse;
+import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.model.Message;
 import com.example.myconnections_android.preferences.AppPreference;
 import com.example.myconnections_android.ui.activities.ChatRoomActivity;
@@ -46,6 +47,11 @@ public class MyGcmPushReceiver extends GcmListenerService {
         Log.d(TAG, "isBackground: " + isBackground);
         Log.d(TAG, "flag: " + flag);
         Log.d(TAG, "data: " + data);
+
+        //iterate through bundle
+        for (String key : bundle.keySet()) {
+            Logger.debug(getClass(), "bundle info: " + bundle.get(key).toString());
+        }
 
         if (flag == null)
             return;

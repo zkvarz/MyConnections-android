@@ -25,13 +25,13 @@ public class LoginTwitterRequest extends PostConnection<LoginResponse> {
     @Override
     protected void parseResponse(RemoteResponse remoteResponse) {
         String responseString = remoteResponse.toString();
-        Logger.debug(getClass(), "LoginFacebookRequest responseString: " + responseString);
+        Logger.debug(getClass(), "LoginTwitterRequest responseString: " + responseString);
         if (remoteResponse.isSuccess()) {
-            Logger.debug(getClass(), "LoginFacebookRequest SUCCESS: " + responseString);
+            Logger.debug(getClass(), "LoginTwitterRequest SUCCESS: " + responseString);
             LoginResponse loginResponse = new Gson().fromJson(responseString, LoginResponse.class);
             onSuccess(loginResponse);
         } else {
-            Logger.error(getClass(), "LoginFacebookRequest ERROR: " + responseString);
+            Logger.error(getClass(), "LoginTwitterRequest ERROR: " + responseString);
             ErrorResponse apiError = new Gson().fromJson(responseString, ErrorResponse.class);
             onError(apiError.getError());
         }

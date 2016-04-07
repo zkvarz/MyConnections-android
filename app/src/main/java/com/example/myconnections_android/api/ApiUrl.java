@@ -75,7 +75,7 @@ public class ApiUrl {
     }
 
     public static String getGcmRegistrationUrl() {
-        return getChatUriBuilder()
+        return getAccountUriBuilder()
                 .appendPath(GCM_REGISTRATION)
                 .build()
                 .toString();
