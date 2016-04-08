@@ -16,7 +16,9 @@ public class ApiUrl {
     private static final String GET_USERS = "getUsers";
     private static final String UPDATE_USER = "updateUser";
     private static final String USER = "user";
-    private static final String GCM_CHAT = "gcmChat";
+    private static final String GCM_CHAT = "chat";
+    private static final String GET_CHAT_ROOMS = "getChatRooms";
+    private static final String SEND_MESSAGE = "sendMessage";
     private static final String GCM_REGISTRATION = "gcmRegistration";
 
     private static Uri.Builder getAccountUriBuilder() {
@@ -80,6 +82,21 @@ public class ApiUrl {
                 .build()
                 .toString();
     }
+
+    public static String getChatRoomsUrl() {
+        return getChatUriBuilder()
+                .appendPath(GET_CHAT_ROOMS)
+                .build()
+                .toString();
+    }
+
+    public static String getSendMessageUrl() {
+        return getChatUriBuilder()
+                .appendPath(SEND_MESSAGE)
+                .build()
+                .toString();
+    }
+
 
 
 

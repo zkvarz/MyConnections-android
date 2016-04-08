@@ -1,10 +1,13 @@
 package com.example.myconnections_android.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by kvarivoda on 05.04.2016.
  */
 public class ChatRoom {
-    String id, name, lastMessage, timestamp;
+    @SerializedName("_id") String id;
+    String name, lastMessage, timestamp;
     int unreadCount;
 
     public ChatRoom(String id, String name, String lastMessage, String timestamp, int unreadCount) {

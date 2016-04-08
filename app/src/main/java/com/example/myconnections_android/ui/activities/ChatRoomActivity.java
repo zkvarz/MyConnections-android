@@ -18,6 +18,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myconnections_android.R;
+import com.example.myconnections_android.api.models.MessageSend;
+import com.example.myconnections_android.api.requests.SendMessageRequest;
+import com.example.myconnections_android.core.structure.helpers.Logger;
+import com.example.myconnections_android.core.structure.models.error.IError;
+import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 import com.example.myconnections_android.gcm.Config;
 import com.example.myconnections_android.gcm.NotificationUtils;
 import com.example.myconnections_android.model.Message;
@@ -54,6 +59,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Logger.debug(getClass(), "chatRoomId " + chatRoomId);
 
         if (chatRoomId == null) {
             Toast.makeText(getApplicationContext(), "Chat room not found!", Toast.LENGTH_SHORT).show();
@@ -146,6 +153,27 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         this.inputMessage.setText("");
 
+        MessageSend messageSend = new MessageSend(AppPreference.getInstance().getLoginResponse().getToken(), message, chatRoomId);
+        new SendMessageRequest(messageSend, new ICallback<Message>() {
+            @Override
+            public void onSuccess(Message message) {
+                Logger.debug(getClass(), "MESSAGE SENT!");
+
+                messageArrayList.add(message);
+                mAdapter.notifyDataSetChanged();
+                if (mAdapter.getItemCount() > 1) {
+                    // scrolling to bottom of the recycler view
+                    recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
+                }
+            }
+
+            @Override
+            public void onError(IError error) {
+                Logger.debug(getClass(), "MESSAGE SEND ERROR " + error.getErrorMessage());
+                Toast.makeText(getApplicationContext(), "Unable to send message to our sever. " /*+ obj.getJSONObject("error").getString("message")*/, Toast.LENGTH_LONG).show();
+            }
+        }).execute();
+
 /*        StringRequest strReq = new StringRequest(Request.Method.POST,
                 endPoint, new Response.Listener<String>() {
 
@@ -216,9 +244,6 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
         };*/
-
-
-        //todo:
 
         // disabling retry policy so that it won't make
         // multiple http calls

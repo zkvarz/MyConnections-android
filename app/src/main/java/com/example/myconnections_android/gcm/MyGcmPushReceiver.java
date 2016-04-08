@@ -85,6 +85,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
      * this message will be broadcasts to all the activities registered
      */
     private void processChatRoomPush(String title, boolean isBackground, String data) {
+        Logger.debug(getClass(), "processChatRoomPush");
         if (!isBackground) {
 
             try {
@@ -156,6 +157,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
      * It will be displayed with / without image in push notification tray
      */
     private void processUserMessage(String title, boolean isBackground, String data) {
+        Logger.debug(getClass(), "processUserMessage");
         if (!isBackground) {
 
             try {

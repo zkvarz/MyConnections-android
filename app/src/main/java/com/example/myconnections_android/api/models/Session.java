@@ -12,6 +12,10 @@ public class Session {
         this.secret = secret;
     }
 
+    public Session(String token) {
+        this.token = token;
+    }
+
     public String getToken() {
         return token;
     }

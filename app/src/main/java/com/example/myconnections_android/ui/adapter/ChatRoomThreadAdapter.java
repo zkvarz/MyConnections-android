@@ -21,8 +21,6 @@ import java.util.Date;
  */
 public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static String TAG = ChatRoomThreadAdapter.class.getSimpleName();
-
     private String userId;
     private int SELF = 100;
     private static String today;
@@ -74,6 +72,8 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemViewType(int position) {
         Message message = messageArrayList.get(position);
+
+        //TODO
         if (message.getLoginResponse().getId().equals(userId)) {
             return SELF;
         }

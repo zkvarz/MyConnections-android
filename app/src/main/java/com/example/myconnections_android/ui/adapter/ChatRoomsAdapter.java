@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.myconnections_android.R;
+import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.model.ChatRoom;
 
 import java.text.ParseException;
@@ -83,6 +84,7 @@ public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.View
         today = today.length() < 2 ? "0" + today : today;
 
         try {
+            Logger.debug(ChatRoomsAdapter.class.getClass(), "date: " + dateStr);
             Date date = format.parse(dateStr);
             SimpleDateFormat todayFormat = new SimpleDateFormat("dd");
             String dateToday = todayFormat.format(date);

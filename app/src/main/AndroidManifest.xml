@@ -86,10 +86,14 @@
             </intent-filter>
         </service>
         <!-- END Added for GCM -->
-        <activity android:name=".ui.activities.ChatActivity"
+        <activity
+            android:name=".ui.activities.ChatActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.ChatRoomActivity"></activity>
+        <activity
+            android:name=".ui.activities.ChatRoomActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

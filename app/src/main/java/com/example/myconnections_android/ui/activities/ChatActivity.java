@@ -19,6 +19,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.myconnections_android.R;
+import com.example.myconnections_android.api.models.Session;
+import com.example.myconnections_android.api.requests.GetChatRoomsRequest;
+import com.example.myconnections_android.core.structure.helpers.Logger;
+import com.example.myconnections_android.core.structure.models.error.IError;
+import com.example.myconnections_android.core.structure.requests.mock.ICallback;
 import com.example.myconnections_android.gcm.Config;
 import com.example.myconnections_android.gcm.GcmIntentService;
 import com.example.myconnections_android.gcm.NotificationUtils;
@@ -169,6 +174,28 @@ public class ChatActivity extends AppCompatActivity {
      * fetching the chat rooms by making http call
      */
     private void fetchChatRooms() {
+        new GetChatRoomsRequest(new Session(AppPreference.getInstance().getLoginResponse().getToken()), new ICallback<ArrayList<ChatRoom>>() {
+            @Override
+            public void onSuccess(ArrayList<ChatRoom> chatRoomsArray) {
+                Logger.debug(getClass(), "GetChatRoomsRequest RESPONSE ");
+                Toast.makeText(getApplicationContext(), "DONICH!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "element name 0:! " + chatRoomsArray.get(0).getName(), Toast.LENGTH_LONG).show();
+
+                for (int i = 0; i < chatRoomsArray.size(); i++) {
+                    chatRoomArrayList.add(chatRoomsArray.get(i));
+                }
+                mAdapter.notifyDataSetChanged();
+                // subscribing to all chat room topics
+                subscribeToAllTopics();
+            }
+
+            @Override
+            public void onError(IError error) {
+                Logger.debug(getClass(), "GetChatRoomsRequest ERROR " + error.getErrorMessage());
+                Toast.makeText(getApplicationContext(), "ERROR!" + error.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
+        }).execute();
+
    /*     StringRequest strReq = new StringRequest(Request.Method.GET,
                 EndPoints.CHAT_ROOMS, new Response.Listener<String>() {
 
