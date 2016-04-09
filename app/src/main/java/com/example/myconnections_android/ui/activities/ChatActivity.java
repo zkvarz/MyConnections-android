@@ -131,18 +131,20 @@ public class ChatActivity extends AppCompatActivity {
      * Handles new push notification
      */
     private void handlePushNotification(Intent intent) {
-        int type = intent.getIntExtra("type", -1);
+//        int type = intent.getIntExtra("type", -1);
+        String type = intent.getExtras().getString("type");
 
         // if the push is of chat room message
         // simply update the UI unread messages count
-        if (type == Config.PUSH_TYPE_CHATROOM) {
+        if (type.equals(Config.PUSH_TYPE_CHATROOM)) {
+            Logger.debug(getClass(), "type.equals(Config.PUSH_TYPE_CHATROOM");
             Message message = (Message) intent.getSerializableExtra("message");
             String chatRoomId = intent.getStringExtra("chat_room_id");
 
             if (message != null && chatRoomId != null) {
                 updateRow(chatRoomId, message);
             }
-        } else if (type == Config.PUSH_TYPE_USER) {
+        } else if (type.equals(Config.PUSH_TYPE_USER)) {
             // push belongs to user alone
             // just showing the message in a toast
             Message message = (Message) intent.getSerializableExtra("message");

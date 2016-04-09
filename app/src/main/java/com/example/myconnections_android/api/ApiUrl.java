@@ -18,6 +18,7 @@ public class ApiUrl {
     private static final String USER = "user";
     private static final String GCM_CHAT = "chat";
     private static final String GET_CHAT_ROOMS = "getChatRooms";
+    private static final String GET_CHAT_ROOM_MESSAGES = "getChatRoomMessages";
     private static final String SEND_MESSAGE = "sendMessage";
     private static final String GCM_REGISTRATION = "gcmRegistration";
 
@@ -86,6 +87,13 @@ public class ApiUrl {
     public static String getChatRoomsUrl() {
         return getChatUriBuilder()
                 .appendPath(GET_CHAT_ROOMS)
+                .build()
+                .toString();
+    }
+
+    public static String getChatRoomMessagesUrl() {
+        return getChatUriBuilder()
+                .appendPath(GET_CHAT_ROOM_MESSAGES)
                 .build()
                 .toString();
     }

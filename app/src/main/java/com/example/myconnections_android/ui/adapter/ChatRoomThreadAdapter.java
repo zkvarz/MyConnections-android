@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.myconnections_android.R;
+import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.model.Message;
+import com.google.gson.Gson;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,7 +52,7 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
-
+        Logger.debug(getClass(), "onCreateViewHolder");
         // view type is to identify where to render the chat message
         // left or right
         if (viewType == SELF) {
@@ -73,24 +74,39 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemViewType(int position) {
         Message message = messageArrayList.get(position);
 
-        //TODO
-        if (message.getLoginResponse().getId().equals(userId)) {
-            return SELF;
-        }
+        Logger.debug(getClass(), "messageArrayList.size " + messageArrayList.size());
 
+        if (message.getLoginResponse() != null && message.getLoginResponse().getId() != null) {
+//            Logger.debug(getClass(), "loginReponse id " + message.getLoginResponse().getId());
+//            Logger.debug(getClass(), "userId " + userId);
+
+            if (message.getLoginResponse().getId().equals(userId)) {
+                Logger.debug(getClass(), "SELF ");
+                return SELF;
+            }
+
+        } else {
+            Logger.debug(getClass(), "IMPOSSIBRU!11 loginReponse ID NULL");
+            Logger.debug(getClass(), "message.getLoginResponse().getId() " + message.getLoginResponse().getId());
+        }
+        Logger.debug(getClass(), "Not SELF ");
         return position;
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        Logger.debug(getClass(), "onBindViewHolder");
+
         Message message = messageArrayList.get(position);
+        ((ViewHolder) holder).message.setText("DSgsd fgsdf gsg sdgsdg sdg sdgsdgsdggf fsdgsdg sd");
         ((ViewHolder) holder).message.setText(message.getMessage());
 
-        String timestamp = getTimeStamp(message.getCreatedAt());
+        Logger.debug(getClass(), "message JSON " + new Gson().toJson(message));
 
-        //TODO
-//        if (message.getUser().getName() != null)
-//            timestamp = message.getUser().getName() + ", " + timestamp;
+        String timestamp = getTimeStamp(message.getTimestamp());
+
+        if (message.getLoginResponse().getPhone() != null)
+            timestamp = message.getLoginResponse().getPhone() + ", " + timestamp;
 
 
         ((ViewHolder) holder).timestamp.setText(timestamp);
@@ -102,21 +118,32 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public static String getTimeStamp(String dateStr) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestamp = "";
+//
+//        today = today.length() < 2 ? "0" + today : today;
 
-        today = today.length() < 2 ? "0" + today : today;
+        Logger.debug(ChatRoomThreadAdapter.class.getClass(), "getTimeStamp ");
+        if (dateStr != null && !dateStr.isEmpty()) {
+            Logger.debug(ChatRoomThreadAdapter.class.getClass(), "dateStr " + dateStr);
+            Date date = new Date();
+            date.setTime(Long.valueOf(dateStr));
+            String formattedDate = new SimpleDateFormat("MMM d, yyyy").format(date);
+            timestamp = formattedDate;
+        }
 
-        try {
-            Date date = format.parse(dateStr);
+
+
+          /*  Date date = format.parse(dateStr);
             SimpleDateFormat todayFormat = new SimpleDateFormat("dd");
             String dateToday = todayFormat.format(date);
             format = dateToday.equals(today) ? new SimpleDateFormat("hh:mm a") : new SimpleDateFormat("dd LLL, hh:mm a");
             String date1 = format.format(date);
             timestamp = date1.toString();
+        try {
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
         return timestamp;
     }
 }
