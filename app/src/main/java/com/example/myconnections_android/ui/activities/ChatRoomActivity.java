@@ -124,7 +124,6 @@ public class ChatRoomActivity extends AppCompatActivity {
      */
     private void handlePushNotification(Intent intent) {
         Logger.debug(getClass(), "handlePushNotification");
-//        Message message = (Message) intent.getSerializableExtra("message");
         Message message = intent.getParcelableExtra("message");
         String chatRoomId = intent.getStringExtra("chat_room_id");
 
@@ -163,7 +162,8 @@ public class ChatRoomActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 if (mAdapter.getItemCount() > 1) {
                     // scrolling to bottom of the recycler view
-                    recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
+//                    recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
+                    recyclerView.getLayoutManager().scrollToPosition( mAdapter.getItemCount() - 1);
                 }
             }
 
@@ -195,7 +195,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
                 mAdapter.notifyDataSetChanged();
                 if (mAdapter.getItemCount() > 1) {
-                    recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
+                    recyclerView.getLayoutManager().scrollToPosition( mAdapter.getItemCount() - 1);
                 }
 
             }

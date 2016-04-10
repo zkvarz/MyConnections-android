@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.myconnections_android.R;
@@ -31,13 +32,14 @@ import com.example.myconnections_android.model.ChatRoom;
 import com.example.myconnections_android.model.Message;
 import com.example.myconnections_android.preferences.AppPreference;
 import com.example.myconnections_android.ui.SimpleDividerItemDecoration;
+import com.example.myconnections_android.ui.activities.chat.UsersActivity;
 import com.example.myconnections_android.ui.adapter.ChatRoomsAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.ArrayList;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = MainActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -90,6 +92,9 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+        Button allUsersButton = (Button) findViewById(R.id.allUsersButton);
+        allUsersButton.setOnClickListener(this);
+
         chatRoomArrayList = new ArrayList<>();
         mAdapter = new ChatRoomsAdapter(this, chatRoomArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -131,7 +136,6 @@ public class ChatActivity extends AppCompatActivity {
      * Handles new push notification
      */
     private void handlePushNotification(Intent intent) {
-//        int type = intent.getIntExtra("type", -1);
         String type = intent.getExtras().getString("type");
 
         // if the push is of chat room message
@@ -151,7 +155,6 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "New push: " + message.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-
     }
 
     /**
@@ -170,7 +173,6 @@ public class ChatActivity extends AppCompatActivity {
         }
         mAdapter.notifyDataSetChanged();
     }
-
 
     /**
      * fetching the chat rooms by making http call
@@ -197,59 +199,6 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "ERROR!" + error.getErrorMessage(), Toast.LENGTH_LONG).show();
             }
         }).execute();
-
-   /*     StringRequest strReq = new StringRequest(Request.Method.GET,
-                EndPoints.CHAT_ROOMS, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.e(TAG, "response: " + response);
-
-                try {
-                    JSONObject obj = new JSONObject(response);
-
-                    // check for error flag
-                    if (obj.getBoolean("error") == false) {
-                        JSONArray chatRoomsArray = obj.getJSONArray("chat_rooms");
-                        for (int i = 0; i < chatRoomsArray.length(); i++) {
-                            JSONObject chatRoomsObj = (JSONObject) chatRoomsArray.get(i);
-                            ChatRoom cr = new ChatRoom();
-                            cr.setId(chatRoomsObj.getString("chat_room_id"));
-                            cr.setName(chatRoomsObj.getString("name"));
-                            cr.setLastMessage("");
-                            cr.setUnreadCount(0);
-                            cr.setTimestamp(chatRoomsObj.getString("created_at"));
-
-                            chatRoomArrayList.add(cr);
-                        }
-
-                    } else {
-                        // error in fetching chat rooms
-                        Toast.makeText(getApplicationContext(), "" + obj.getJSONObject("error").getString("message"), Toast.LENGTH_LONG).show();
-                    }
-
-                } catch (JSONException e) {
-                    Log.e(TAG, "json parsing error: " + e.getMessage());
-                    Toast.makeText(getApplicationContext(), "Json parse error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-                mAdapter.notifyDataSetChanged();
-
-                // subscribing to all chat room topics
-                subscribeToAllTopics();
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                NetworkResponse networkResponse = error.networkResponse;
-                Log.e(TAG, "Volley error: " + error.getMessage() + ", code: " + networkResponse);
-                Toast.makeText(getApplicationContext(), "Volley error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //Adding request to request queue
-        MyApplication.getInstance().addToRequestQueue(strReq);*/
     }
 
     // subscribing to global topic
@@ -342,5 +291,14 @@ public class ChatActivity extends AppCompatActivity {
                 break;
         }*/
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.allUsersButton:
+                startActivity(new Intent(this, UsersActivity.class));
+                break;
+        }
     }
 }

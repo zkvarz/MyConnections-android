@@ -95,24 +95,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         googleLogin.setOnClickListener(this);
         Button twitterLogin = (Button) findViewById(R.id.twitterLogin);
         twitterLogin.setOnClickListener(this);
-
-
-      /*  String sessionString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2ZjI3OTdmYThlYzcwNTkwNzU2ZWE5NSIsImV4cCI6MTQ2MDA1OTY2Nn0.yMOdPmlnHynvcLol-GX3-6sg4ycoxv4i0vSs_Qqk2h8";
-        new GetUsersRequest(new Session(sessionString), new ICallback<ArrayList<UsersResponse>>() {
-            @Override
-            public void onSuccess(ArrayList<UsersResponse> usersResponse) {
-                Logger.debug(getClass(), "GetUsersRequest RESPONSE ");
-                Toast.makeText(getApplicationContext(), "DONICH!", Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "element! " + usersResponse.get(0).getPhone(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(IError error) {
-                Logger.debug(getClass(), "GetUsersRequest ERROR " + error.getErrorMessage());
-                Toast.makeText(getApplicationContext(), "ERROR!" + error.getErrorMessage(), Toast.LENGTH_LONG).show();
-            }
-        }).execute();*/
-
     }
 
     @Override

@@ -1,24 +1,13 @@
 package com.example.myconnections_android.api.responses;
 
-import java.util.ArrayList;
-
 /**
  * Created by kvarivoda on 23.03.2016.
  */
 public class UsersResponse {
     private String _id;
     private String phone;
-    private String password;
-
-    private ArrayList userArray;
-
-    public ArrayList getUserArray() {
-        return userArray;
-    }
-
-    public void setUserArray(ArrayList userArray) {
-        this.userArray = userArray;
-    }
+    private String social;
+    private String gcm_registration_id;
 
     public String get_id() {
         return _id;
@@ -36,11 +25,19 @@ public class UsersResponse {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSocial() {
+        return social;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSocial(String social) {
+        this.social = social;
+    }
+
+    public String getGcm_registration_id() {
+        return gcm_registration_id;
+    }
+
+    public void setGcm_registration_id(String gcm_registration_id) {
+        this.gcm_registration_id = gcm_registration_id;
     }
 }

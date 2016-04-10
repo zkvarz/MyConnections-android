@@ -4,6 +4,7 @@
     <string name="google_animation">Google Map Animation</string>
     <string name="calendarButton">Calendar Button</string>
     <string name="chatButton">Chat</string>
+    <string name="allUsersButton">Show All Users</string>
     <string name="title_activity_map_animation">MapAnimationActivity</string>
 
     <string name="facebook_app_id">567980196692866</string>

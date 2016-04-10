@@ -33,7 +33,8 @@ public class GetUsersRequest extends PostConnection<ArrayList<UsersResponse>> {
         Logger.debug(getClass(), "LoginFacebookRequest responseString: " + responseString);
         if (remoteResponse.isSuccess()) {
             Logger.debug(getClass(), "LoginFacebookRequest SUCCESS: " + responseString);
-            ArrayList<UsersResponse> usersResponse = new Gson().fromJson(responseString, new TypeToken<List<UsersResponse>>(){}.getType());
+            ArrayList<UsersResponse> usersResponse = new Gson().fromJson(responseString, new TypeToken<List<UsersResponse>>() {
+            }.getType());
             onSuccess(usersResponse);
         } else {
             Logger.error(getClass(), "LoginFacebookRequest ERROR: " + responseString);
