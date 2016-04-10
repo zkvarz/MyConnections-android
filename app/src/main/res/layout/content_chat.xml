@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.activities.ChatActivity">
+    tools:context=".ui.activities.chat.ChatActivity">
 
     <Button
         android:id="@+id/allUsersButton"

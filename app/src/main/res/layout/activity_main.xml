@@ -32,7 +32,7 @@
         android:id="@+id/googleMapAnimation"
         android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_70"
-        android:text="@string/google_animation"
+        android:text="@string/google_plane_animation"
         android:layout_below="@+id/googleMapButton"
         android:layout_alignLeft="@+id/googleMapButton"
         android:layout_alignStart="@+id/googleMapButton" />

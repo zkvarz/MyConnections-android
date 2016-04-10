@@ -1,4 +1,4 @@
-package com.example.myconnections_android.ui.activities;
+package com.example.myconnections_android.ui.activities.chat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -162,7 +162,6 @@ public class ChatRoomActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 if (mAdapter.getItemCount() > 1) {
                     // scrolling to bottom of the recycler view
-//                    recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
                     recyclerView.getLayoutManager().scrollToPosition( mAdapter.getItemCount() - 1);
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.myconnections_android.ui.activities;
+package com.example.myconnections_android.ui.activities.chat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,7 +32,8 @@ import com.example.myconnections_android.model.ChatRoom;
 import com.example.myconnections_android.model.Message;
 import com.example.myconnections_android.preferences.AppPreference;
 import com.example.myconnections_android.ui.SimpleDividerItemDecoration;
-import com.example.myconnections_android.ui.activities.chat.UsersActivity;
+import com.example.myconnections_android.ui.activities.MainActivity;
+import com.example.myconnections_android.ui.activities.SignInActivity;
 import com.example.myconnections_android.ui.adapter.ChatRoomsAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;

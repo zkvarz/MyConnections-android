@@ -45,11 +45,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.MapAnimationActivity"
+            android:name=".ui.activities.map.MapAnimationActivity"
             android:label="@string/title_activity_map_animation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.GoogleAnimationActivity"
+            android:name=".ui.activities.map.GoogleAnimationActivity"
             android:label="@string/title_activity_map_animation" />
         <activity android:name=".ui.activities.CalendarActivity" />
         <activity
@@ -93,11 +93,11 @@
         </service>
         <!-- END Added for GCM -->
         <activity
-            android:name=".ui.activities.ChatActivity"
+            android:name=".ui.activities.chat.ChatActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.ChatRoomActivity"
+            android:name=".ui.activities.chat.ChatRoomActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.chat.UsersActivity"></activity>

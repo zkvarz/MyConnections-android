@@ -1,4 +1,4 @@
-package com.example.myconnections_android.ui.activities;
+package com.example.myconnections_android.ui.activities.map;
 
 import android.graphics.Color;
 import android.os.Bundle;

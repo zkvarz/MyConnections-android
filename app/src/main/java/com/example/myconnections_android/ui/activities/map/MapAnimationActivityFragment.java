@@ -1,4 +1,4 @@
-package com.example.myconnections_android.ui.activities;
+package com.example.myconnections_android.ui.activities.map;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

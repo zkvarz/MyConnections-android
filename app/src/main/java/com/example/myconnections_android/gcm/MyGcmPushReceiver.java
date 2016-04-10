@@ -10,7 +10,7 @@ import com.example.myconnections_android.api.responses.LoginResponse;
 import com.example.myconnections_android.core.structure.helpers.Logger;
 import com.example.myconnections_android.model.Message;
 import com.example.myconnections_android.preferences.AppPreference;
-import com.example.myconnections_android.ui.activities.ChatRoomActivity;
+import com.example.myconnections_android.ui.activities.chat.ChatRoomActivity;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.google.gson.Gson;
 

@@ -1,4 +1,4 @@
-package com.example.myconnections_android.ui.activities;
+package com.example.myconnections_android.ui.activities.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

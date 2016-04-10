@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.myconnections_android.R;
+import com.example.myconnections_android.ui.activities.chat.ChatActivity;
+import com.example.myconnections_android.ui.activities.map.GoogleAnimationActivity;
+import com.example.myconnections_android.ui.activities.map.MapAnimationActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
