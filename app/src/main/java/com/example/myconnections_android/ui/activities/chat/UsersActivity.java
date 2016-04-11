@@ -1,5 +1,6 @@
 package com.example.myconnections_android.ui.activities.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,11 +37,14 @@ public class UsersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long l) {
                 UsersResponse usersResponse = usersResponseList.get(position);
-
-                Toast.makeText(getApplicationContext(), "yaa "+ position + " " + usersResponse.getPhone(), Toast.LENGTH_LONG).show();
-                Logger.debug(getClass(), "print all the data");
+                Toast.makeText(getApplicationContext(), "yaa " + position + " " + usersResponse.getPhone(), Toast.LENGTH_LONG).show();
 
                 Logger.debug(getClass(), "clicked id: " + usersResponseList.get(position).get_id());
+
+                Intent intent = new Intent(UsersActivity.this, ChatRoomPrivateActivity.class);
+                intent.putExtra("user_id", usersResponse.get_id());
+                intent.putExtra("phone", usersResponse.getPhone());
+                startActivity(intent);
             }
         });
 

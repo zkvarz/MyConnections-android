@@ -77,7 +77,7 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Logger.debug(getClass(), "messageArrayList.size " + messageArrayList.size());
 
         if (message.getLoginResponse() != null && message.getLoginResponse().getId() != null) {
-//            Logger.debug(getClass(), "loginReponse id " + message.getLoginResponse().getId());
+//            Logger.debug(getClass(), "loginReponse id " + message.getLoginResponse().getChatRoomId());
 //            Logger.debug(getClass(), "userId " + userId);
 
             if (message.getLoginResponse().getId().equals(userId)) {
@@ -87,7 +87,7 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         } else {
             Logger.debug(getClass(), "IMPOSSIBRU!11 loginReponse ID NULL");
-            Logger.debug(getClass(), "message.getLoginResponse().getId() " + message.getLoginResponse().getId());
+            Logger.debug(getClass(), "message.getLoginResponse().getChatRoomId() " + message.getLoginResponse().getId());
         }
         Logger.debug(getClass(), "Not SELF ");
         return position;

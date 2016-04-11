@@ -94,7 +94,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
                 JSONObject mObj = datObj.getJSONObject("message");
                 Message message = new Message();
                 message.setMessage(mObj.getString("message"));
-                message.setId(mObj.getString("id"));
+                message.setChatRoomId(mObj.getString("id"));
                 message.setTimestamp(mObj.getString("timestamp"));
 
                 JSONObject uObj = datObj.getJSONObject("loginResponse");*/
@@ -108,7 +108,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
                 }
                 //TODO:
               /*  User user = new User();
-                user.setId(uObj.getString("user_id"));
+                user.setChatRoomId(uObj.getString("user_id"));
                 user.setEmail(uObj.getString("email"));
                 user.setName(uObj.getString("name"));
                 message.setUser(user);*/
@@ -161,20 +161,20 @@ public class MyGcmPushReceiver extends GcmListenerService {
                 JSONObject mObj = datObj.getJSONObject("message");
                 Message message = new Message();
                 message.setMessage(mObj.getString("message"));
-                message.setId(mObj.getString("message_id"));
+                message.setChatRoomId(mObj.getString("message_id"));
                 message.setTimestamp(mObj.getString("created_at"));
 
                 JSONObject uObj = datObj.getJSONObject("user");
 
                 //TODO
                *//* User user = new User();
-                user.setId(uObj.getString("user_id"));
+                user.setChatRoomId(uObj.getString("user_id"));
                 user.setEmail(uObj.getString("email"));
                 user.setName(uObj.getString("name"));
                 message.setUser(user);*//*
 
                 LoginResponse loginResponse = new LoginResponse();
-                loginResponse.setId(uObj.getString("user_id"));
+                loginResponse.setChatRoomId(uObj.getString("user_id"));
 
                 message.setLoginResponse(loginResponse);
 

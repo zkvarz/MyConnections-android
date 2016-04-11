@@ -4,6 +4,7 @@ package com.example.myconnections_android.api.responses;
  * Created by kvarivoda on 23.03.2016.
  */
 public class UsersResponse {
+    //todo _id
     private String _id;
     private String phone;
     private String social;

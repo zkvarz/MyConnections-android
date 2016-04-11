@@ -100,7 +100,10 @@
             android:name=".ui.activities.chat.ChatRoomActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.chat.UsersActivity"></activity>
+        <activity android:name=".ui.activities.chat.UsersActivity" />
+        <activity android:name=".ui.activities.chat.ChatRoomPrivateActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

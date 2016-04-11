@@ -244,7 +244,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Logger.debug(getClass(), "acct.getDisplayName() " + acct.getDisplayName());
-            Logger.debug(getClass(), "acct.getId() " + acct.getId());
+            Logger.debug(getClass(), "acct.getChatRoomId() " + acct.getId());
             Logger.debug(getClass(), "acct.getIdToken() " + acct.getIdToken());
             googleServerSignIn(acct.getIdToken());
         } else {

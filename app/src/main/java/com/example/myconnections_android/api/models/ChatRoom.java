@@ -3,13 +3,13 @@ package com.example.myconnections_android.api.models;
 /**
  * Created by kvarivoda on 09.04.2016.
  */
-public class ObjectId {
+public class ChatRoom {
     private String token;
-    private String id;
+    private String chatRoomId;
 
-    public ObjectId(String token, String id) {
+    public ChatRoom(String token, String chatRoomId) {
         this.token = token;
-        this.id = id;
+        this.chatRoomId = chatRoomId;
     }
 
     public String getToken() {
@@ -20,11 +20,11 @@ public class ObjectId {
         this.token = token;
     }
 
-    public String getId() {
-        return id;
+    public String getChatRoomId() {
+        return chatRoomId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setChatRoomId(String id) {
+        this.chatRoomId = id;
     }
 }
