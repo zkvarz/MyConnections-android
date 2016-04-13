@@ -156,6 +156,7 @@ public class ChatRoomPrivateActivity extends AppCompatActivity {
 
         if (chatRoomId != null) {
             MessageSend messageSend = new MessageSend(AppPreference.getInstance().getLoginResponse().getToken(), message, chatRoomId);
+            Logger.debug(getClass(), "JSON MessageSend: "  + new Gson().toJson(messageSend));
             new SendMessageRequest(messageSend, new ICallback<Message>() {
                 @Override
                 public void onSuccess(Message message) {
@@ -187,6 +188,8 @@ public class ChatRoomPrivateActivity extends AppCompatActivity {
     private void fetchPrivateChatThread() {
 
         ChatRoom chatRoom = new ChatRoom(AppPreference.getInstance().getLoginResponse().getToken(), chatRoomId);
+        Logger.debug(getClass(), "JSON SEND: " + new Gson().toJson(chatRoom));
+
         new GetChatRoomMessagesRequest(chatRoom, new ICallback<ArrayList<Message>>() {
             @Override
             public void onSuccess(ArrayList<Message> messagesArray) {
@@ -218,6 +221,7 @@ public class ChatRoomPrivateActivity extends AppCompatActivity {
         loginResponse.setToken(AppPreference.getInstance().getLoginResponse().getToken());
         loginResponse.setId(chatUserId);
 
+        Logger.debug(getClass(), "GetPrivateChatRoomRequest JSON SEND: " + new Gson().toJson(loginResponse));
         new GetPrivateChatRoomRequest(loginResponse, new ICallback<ChatRoom>() {
             @Override
             public void onSuccess(ChatRoom chatRoom) {

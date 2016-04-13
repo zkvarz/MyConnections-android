@@ -77,14 +77,10 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Logger.debug(getClass(), "messageArrayList.size " + messageArrayList.size());
 
         if (message.getLoginResponse() != null && message.getLoginResponse().getId() != null) {
-//            Logger.debug(getClass(), "loginReponse id " + message.getLoginResponse().getChatRoomId());
-//            Logger.debug(getClass(), "userId " + userId);
-
             if (message.getLoginResponse().getId().equals(userId)) {
                 Logger.debug(getClass(), "SELF ");
                 return SELF;
             }
-
         } else {
             Logger.debug(getClass(), "IMPOSSIBRU!11 loginReponse ID NULL");
             Logger.debug(getClass(), "message.getLoginResponse().getChatRoomId() " + message.getLoginResponse().getId());
@@ -118,11 +114,7 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public static String getTimeStamp(String dateStr) {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestamp = "";
-//
-//        today = today.length() < 2 ? "0" + today : today;
-
         Logger.debug(ChatRoomThreadAdapter.class.getClass(), "getTimeStamp ");
         if (dateStr != null && !dateStr.isEmpty()) {
             Logger.debug(ChatRoomThreadAdapter.class.getClass(), "dateStr " + dateStr);
@@ -132,18 +124,6 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             timestamp = formattedDate;
         }
 
-
-
-          /*  Date date = format.parse(dateStr);
-            SimpleDateFormat todayFormat = new SimpleDateFormat("dd");
-            String dateToday = todayFormat.format(date);
-            format = dateToday.equals(today) ? new SimpleDateFormat("hh:mm a") : new SimpleDateFormat("dd LLL, hh:mm a");
-            String date1 = format.format(date);
-            timestamp = date1.toString();
-        try {
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
         return timestamp;
     }
 }

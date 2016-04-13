@@ -58,6 +58,7 @@ public class UsersActivity extends AppCompatActivity {
                 Logger.debug(getClass(), "GetUsersRequest RESPONSE ");
                 usersResponseList.clear();
                 usersResponseList.addAll(usersResponse);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
