@@ -7,6 +7,7 @@ public class MessageSend {
     private String token;
     private String message;
     private String chatRoomId;
+    private String toUserId;
 
     public MessageSend(String token, String message, String chatRoomId) {
         this.token = token;
@@ -36,5 +37,13 @@ public class MessageSend {
 
     public void setChatRoomId(String chatRoomId) {
         this.chatRoomId = chatRoomId;
+    }
+
+    public String getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
     }
 }

@@ -156,6 +156,7 @@ public class ChatRoomPrivateActivity extends AppCompatActivity {
 
         if (chatRoomId != null) {
             MessageSend messageSend = new MessageSend(AppPreference.getInstance().getLoginResponse().getToken(), message, chatRoomId);
+            messageSend.setToUserId(chatUserId);
             Logger.debug(getClass(), "JSON MessageSend: "  + new Gson().toJson(messageSend));
             new SendMessageRequest(messageSend, new ICallback<Message>() {
                 @Override

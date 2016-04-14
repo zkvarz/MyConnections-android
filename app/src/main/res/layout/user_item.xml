@@ -49,7 +49,7 @@
                 android:layout_toRightOf="@+id/textViewTitle"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="asdfasdf"
+                android:text="Phone"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/font_14" />
 
@@ -63,7 +63,7 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Some messagsdsd.s!"
+            android:text=""
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:textSize="@dimen/font_14" />
@@ -76,7 +76,6 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Some messagsddssd"
             android:textColor="@color/gray"
             android:textColorLink="@color/gray"
             android:textSize="@dimen/font_14" />

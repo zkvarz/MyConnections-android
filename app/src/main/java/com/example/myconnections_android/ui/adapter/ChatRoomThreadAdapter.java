@@ -70,6 +70,7 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
+
     @Override
     public int getItemViewType(int position) {
         Message message = messageArrayList.get(position);
@@ -83,7 +84,7 @@ public class ChatRoomThreadAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         } else {
             Logger.debug(getClass(), "IMPOSSIBRU!11 loginReponse ID NULL");
-            Logger.debug(getClass(), "message.getLoginResponse().getChatRoomId() " + message.getLoginResponse().getId());
+//            Logger.debug(getClass(), "message.getLoginResponse().getChatRoomId() " + message.getLoginResponse().getId());
         }
         Logger.debug(getClass(), "Not SELF ");
         return position;
