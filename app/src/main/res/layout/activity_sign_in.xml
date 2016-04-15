@@ -36,12 +36,20 @@
             android:layout_centerHorizontal="true" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passportEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/passwordText"
             android:inputType="textPassword"
             android:layout_below="@id/phone"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="@dimen/dimen_180"
+            android:layout_height="@dimen/dimen_70"
+            android:text="@string/loginButton"
+            android:layout_below="@+id/passportEditText"
             android:layout_centerHorizontal="true" />
 
         </RelativeLayout>

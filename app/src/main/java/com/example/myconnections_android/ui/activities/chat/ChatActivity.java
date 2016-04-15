@@ -141,7 +141,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         // if the push is of chat room message
         // simply update the UI unread messages count
-        if (type.equals(Config.PUSH_TYPE_CHATROOM)) {
+        if (type != null && type.equals(Config.PUSH_TYPE_CHATROOM)) {
             Logger.debug(getClass(), "type.equals(Config.PUSH_TYPE_CHATROOM");
             Message message = (Message) intent.getSerializableExtra("message");
             String chatRoomId = intent.getStringExtra("chat_room_id");
@@ -149,7 +149,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             if (message != null && chatRoomId != null) {
                 updateRow(chatRoomId, message);
             }
-        } else if (type.equals(Config.PUSH_TYPE_USER)) {
+        } else if (type != null && type.equals(Config.PUSH_TYPE_USER)) {
             // push belongs to user alone
             // just showing the message in a toast
             Message message = (Message) intent.getSerializableExtra("message");

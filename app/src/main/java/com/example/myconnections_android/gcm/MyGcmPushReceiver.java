@@ -44,9 +44,9 @@ public class MyGcmPushReceiver extends GcmListenerService {
         Log.d(TAG, "data: " + data);
 
         //iterate through bundle
-        for (String key : bundle.keySet()) {
+        /*for (String key : bundle.keySet()) {
             Logger.debug(getClass(), "bundle info: " + bundle.get(key).toString());
-        }
+        }*/
 
         if (AppPreference.getInstance().getLoginResponse() == null) {
             // user is not logged in, skipping push notification
@@ -54,21 +54,19 @@ public class MyGcmPushReceiver extends GcmListenerService {
             return;
         }
 
-        if (from.startsWith("/topics/")) {
-            // message received from some topic.
+        if (flag != null) {
+            switch (flag) {
+                case Config.PUSH_TYPE_CHATROOM:
+                    // push notification belongs to a chat room
+                    processChatRoomPush(title, isBackground, data);
+                    break;
+                case Config.PUSH_TYPE_USER:
+                    // push notification is specific to user
+                    processUserMessage(title, isBackground, data);
+                    break;
+            }
         } else {
-            // normal downstream message.
-        }
-
-        switch (flag) {
-            case Config.PUSH_TYPE_CHATROOM:
-                // push notification belongs to a chat room
-                processChatRoomPush(title, isBackground, data);
-                break;
-            case Config.PUSH_TYPE_USER:
-                // push notification is specific to user
-                processUserMessage(title, isBackground, data);
-                break;
+            Logger.debug(getClass(), "flag is NULL");
         }
     }
 
@@ -80,64 +78,39 @@ public class MyGcmPushReceiver extends GcmListenerService {
         Logger.debug(getClass(), "processChatRoomPush");
         if (!isBackground) {
 
-//            try {
-                Message message = new Gson().fromJson(data, Message.class);
+            Message message = new Gson().fromJson(data, Message.class);
+            LoginResponse loginResponse = message.getLoginResponse();
 
-                LoginResponse loginResponse = message.getLoginResponse();
+            Logger.debug(getClass(), "what about chat room id? :" + message.getChatRoomId());
 
-                Logger.debug(getClass(), "what about chat room id? :" + message.getChatRoomId());
+            // skip the message if the message belongs to same user as
+            // the user would be having the same message when he was sending
+            // but it might differs in your scenario
+            if (loginResponse.getId().equals(AppPreference.getInstance().getLoginResponse().getId())) {
+                Log.e(TAG, "Skipping the push message as it belongs to same user");
+                return;
+            }
 
-               /* JSONObject datObj = new JSONObject(data);
+            // verifying whether the app is in background or foreground
+            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
 
-                String chatRoomId = datObj.getString("chat_room_id");
+                // app is in foreground, broadcast the push message
+                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+                pushNotification.putExtra("type", Config.PUSH_TYPE_CHATROOM);
+                pushNotification.putExtra("message", message);
+                pushNotification.putExtra("chat_room_id", message.getChatRoomId());
+                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
-                JSONObject mObj = datObj.getJSONObject("message");
-                Message message = new Message();
-                message.setMessage(mObj.getString("message"));
-                message.setChatRoomId(mObj.getString("id"));
-                message.setTimestamp(mObj.getString("timestamp"));
+                // play notification sound
+                NotificationUtils notificationUtils = new NotificationUtils();
+                notificationUtils.playNotificationSound();
+            } else {
 
-                JSONObject uObj = datObj.getJSONObject("loginResponse");*/
-
-                // skip the message if the message belongs to same user as
-                // the user would be having the same message when he was sending
-                // but it might differs in your scenario
-                if (loginResponse.getId().equals(AppPreference.getInstance().getLoginResponse().getId())) {
-                    Log.e(TAG, "Skipping the push message as it belongs to same user");
-                    return;
-                }
-                //TODO:
-              /*  User user = new User();
-                user.setChatRoomId(uObj.getString("user_id"));
-                user.setEmail(uObj.getString("email"));
-                user.setName(uObj.getString("name"));
-                message.setUser(user);*/
-
-                // verifying whether the app is in background or foreground
-                if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-
-                    // app is in foreground, broadcast the push message
-                    Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-                    pushNotification.putExtra("type", Config.PUSH_TYPE_CHATROOM);
-                    pushNotification.putExtra("message", message);
-                    pushNotification.putExtra("chat_room_id", message.getChatRoomId());
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-                    // play notification sound
-                    NotificationUtils notificationUtils = new NotificationUtils();
-                    notificationUtils.playNotificationSound();
-                } else {
-
-                    // app is in background. show the message in notification try
-                    Intent resultIntent = new Intent(getApplicationContext(), ChatRoomActivity.class);
-                    resultIntent.putExtra("chat_room_id", message.getChatRoomId());
-                    showNotificationMessage(getApplicationContext(), title, /*user.getName() +*/ " : " + message.getMessage(), message.getTimestamp(), resultIntent);
-                }
-
-//            } catch (JSONException e) {
-//                Log.e(TAG, "json parsing error: " + e.getMessage());
-//                Toast.makeText(getApplicationContext(), "Json parse error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
+                // app is in background. show the message in notification try
+                Intent resultIntent = new Intent(getApplicationContext(), ChatRoomActivity.class);
+                resultIntent.putExtra("chat_room_id", message.getChatRoomId());
+                showNotificationMessage(getApplicationContext(), title, /*user.getName() +*/ " : " + message.getMessage(), message.getTimestamp(), resultIntent);
+            }
 
         } else {
             // the push notification is silent, may be other operations needed

@@ -10,6 +10,7 @@ public class ApiUrl {
     private static final String DEV_SERVER = "myconnections-backend-zkvarz.c9users.io";
     private static final String ACCOUNT = "account";
     private static final String CREATE_USER = "createUser";
+    private static final String LOGIN = "login";
     private static final String LOGIN_BY_FACEBOOK = "facebookLogin";
     private static final String LOGIN_BY_TWITTER = "twitterLogin";
     private static final String LOGIN_BY_GOOGLE = "googleLogin";
@@ -43,6 +44,15 @@ public class ApiUrl {
                 .build()
                 .toString();
     }
+
+    public static String getLoginUrl() {
+        return getAccountUriBuilder()
+                .appendPath(LOGIN)
+                .build()
+                .toString();
+    }
+
+
     public static String getLoginByFacebookUrl() {
         return getAccountUriBuilder()
                 .appendPath(LOGIN_BY_FACEBOOK)
@@ -112,8 +122,6 @@ public class ApiUrl {
                 .build()
                 .toString();
     }
-
-
 
 
 }

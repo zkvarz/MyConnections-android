@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +19,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myconnections_android.R;
-import com.example.myconnections_android.api.models.MessageSend;
 import com.example.myconnections_android.api.models.ChatRoom;
+import com.example.myconnections_android.api.models.MessageSend;
 import com.example.myconnections_android.api.requests.GetChatRoomMessagesRequest;
 import com.example.myconnections_android.api.requests.SendMessageRequest;
 import com.example.myconnections_android.core.structure.helpers.Logger;
@@ -57,8 +58,11 @@ public class ChatRoomActivity extends AppCompatActivity {
         chatRoomId = intent.getStringExtra("chat_room_id");
         String title = intent.getStringExtra("name");
 
-        getSupportActionBar().setTitle(title);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            getSupportActionBar().setTitle(title);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Logger.debug(getClass(), "chatRoomId " + chatRoomId);
 
@@ -162,7 +166,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 if (mAdapter.getItemCount() > 1) {
                     // scrolling to bottom of the recycler view
-                    recyclerView.getLayoutManager().scrollToPosition( mAdapter.getItemCount() - 1);
+                    recyclerView.getLayoutManager().scrollToPosition(mAdapter.getItemCount() - 1);
                 }
             }
 
@@ -194,7 +198,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
                 mAdapter.notifyDataSetChanged();
                 if (mAdapter.getItemCount() > 1) {
-                    recyclerView.getLayoutManager().scrollToPosition( mAdapter.getItemCount() - 1);
+                    recyclerView.getLayoutManager().scrollToPosition(mAdapter.getItemCount() - 1);
                 }
 
             }

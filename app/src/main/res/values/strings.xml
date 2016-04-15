@@ -12,6 +12,7 @@
     <string name="server_client_id">356569675251-vcq1jmfqsiccvidtsap7nfckvama6228.apps.googleusercontent.com</string>
 
 
+    <string name="loginButton">Login Button</string>
     <string name="facebookLogin">Facebook Login</string>
     <string name="googleLogin">Google Login</string>
     <string name="twitterLogin">Twitter Login</string>

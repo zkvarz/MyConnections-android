@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by kvarivoda on 06.04.2016.
@@ -78,7 +79,7 @@ public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.View
     }
 
     public static String getTimeStamp(String dateStr) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String timestamp = "";
 
         today = today.length() < 2 ? "0" + today : today;
@@ -86,11 +87,10 @@ public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.View
         try {
             Logger.debug(ChatRoomsAdapter.class.getClass(), "date: " + dateStr);
             Date date = format.parse(dateStr);
-            SimpleDateFormat todayFormat = new SimpleDateFormat("dd");
+            SimpleDateFormat todayFormat = new SimpleDateFormat("dd", Locale.US);
             String dateToday = todayFormat.format(date);
-            format = dateToday.equals(today) ? new SimpleDateFormat("hh:mm a") : new SimpleDateFormat("dd LLL, hh:mm a");
-            String date1 = format.format(date);
-            timestamp = date1.toString();
+            format = dateToday.equals(today) ? new SimpleDateFormat("hh:mm a", Locale.US) : new SimpleDateFormat("dd LLL, hh:mm a", Locale.US);
+            timestamp = format.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }

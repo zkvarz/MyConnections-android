@@ -2,6 +2,7 @@ package com.example.myconnections_android.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -14,10 +15,12 @@ import android.widget.Toast;
 
 import com.example.myconnections_android.R;
 import com.example.myconnections_android.api.models.FacebookUserResponse;
+import com.example.myconnections_android.api.models.Login;
 import com.example.myconnections_android.api.models.LoginFacebook;
 import com.example.myconnections_android.api.models.Session;
 import com.example.myconnections_android.api.requests.LoginFacebookRequest;
 import com.example.myconnections_android.api.requests.LoginGoogleRequest;
+import com.example.myconnections_android.api.requests.LoginRequest;
 import com.example.myconnections_android.api.requests.LoginTwitterRequest;
 import com.example.myconnections_android.api.requests.UpdateUserRequest;
 import com.example.myconnections_android.api.responses.LoginResponse;
@@ -55,6 +58,8 @@ import static android.text.TextUtils.isEmpty;
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private CallbackManager callbackManager;
+    private EditText phone;
+    private EditText passportEditText;
     private EditText phoneText;
     private GoogleApiClient mGoogleApiClient;
     private TwitterAuthClient client;
@@ -89,6 +94,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         client = new TwitterAuthClient();
 
+        phone = (EditText) findViewById(R.id.phone);
+        passportEditText = (EditText) findViewById(R.id.passportEditText);
+
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(this);
         Button facebookLogin = (Button) findViewById(R.id.facebookLogin);
         facebookLogin.setOnClickListener(this);
         Button googleLogin = (Button) findViewById(R.id.googleLogin);
@@ -140,6 +150,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.loginButton:
+                if (!isEmpty(phone.getText()) && !isEmpty(passportEditText.getText())) {
+                    loginServer(phone.getText().toString(), passportEditText.getText().toString());
+                }
+                break;
             case R.id.facebookLogin:
                 Logger.debug(getClass(), "Click!");
                 // Initialize Facebook SDK
@@ -204,6 +219,31 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private void loginServer(String phone, String password) {
+        new LoginRequest(new Login(phone, password), new ICallback<LoginResponse>() {
+
+            @Override
+            public void onSuccess(LoginResponse loginResponse) {
+
+                AppPreference.getInstance().setLoginResponse(new Gson().toJson(loginResponse));
+                SignInActivity.loginResponse = loginResponse;
+
+                if (isEmpty(loginResponse.getPhone())) {
+                    Toast.makeText(getApplicationContext(), "Error login!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "DONE!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
+            }
+
+            @Override
+            public void onError(IError error) {
+                Logger.debug(getClass(), "LoginRequest ERROR " + error.getErrorMessage());
+                Toast.makeText(getApplicationContext(), "ERROR!" + error.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
+        }).execute();
+    }
+
     public void authorizeTwitter() {
         client.authorize(this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
 
@@ -243,7 +283,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Logger.debug(getClass(), "acct.getDisplayName() " + acct.getDisplayName());
+//            Logger.debug(getClass(), "acct.getDisplayName() " + acct.getDisplayName());
             Logger.debug(getClass(), "acct.getChatRoomId() " + acct.getId());
             Logger.debug(getClass(), "acct.getIdToken() " + acct.getIdToken());
             googleServerSignIn(acct.getIdToken());
@@ -365,7 +405,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Logger.debug(getClass(), "onConnectionFailed:" + connectionResult.getErrorMessage());

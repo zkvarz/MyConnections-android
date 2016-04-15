@@ -116,7 +116,7 @@ public class GcmIntentService extends IntentService {
     public static void subscribeToTopic(String topic) {
         GcmPubSub pubSub = GcmPubSub.getInstance(CoreApplication.getApplication().getApplicationContext());
         InstanceID instanceID = InstanceID.getInstance(CoreApplication.getApplication().getApplicationContext());
-        String token = null;
+        String token;
         try {
             token = instanceID.getToken(CoreApplication.getApplication().getApplicationContext().getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
@@ -135,7 +135,7 @@ public class GcmIntentService extends IntentService {
     public void unsubscribeFromTopic(String topic) {
         GcmPubSub pubSub = GcmPubSub.getInstance(getApplicationContext());
         InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
-        String token = null;
+        String token;
         try {
             token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
